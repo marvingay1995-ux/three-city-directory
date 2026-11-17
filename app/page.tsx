@@ -1,0 +1,3 @@
+import Link from "next/link";
+import { cities } from "../lib/directory";
+export default function Home(){return <main className="shell"><header><span className="brand">THREE CITY DIRECTORY</span><span className="demo">DEMO ONLY</span></header><section className="hero"><p className="eyebrow">WELCOME</p><h1>Choose your city.</h1><p>Explore a fictional directory prototype across three city markets.</p><div className="cities">{cities.map(city=><Link key={city.slug} className="city" href={`/${city.slug}`}><span className="flag">{city.flag}</span><strong>{city.name}</strong><small>{city.country}</small><span className="arrow">Explore →</span></Link>)}</div></section><footer>Demonstration data only. No real advertisers, bookings, or payments.</footer></main>}
