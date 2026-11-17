@@ -10,3 +10,16 @@ export const demoListings = [
 ] as const;
 export function getCity(slug:string){return cities.find(city=>city.slug===slug);}
 export function getListings(slug:string,query=""){return demoListings.filter(item=>item.city===slug && `${item.title} ${item.category} ${item.description}`.toLowerCase().includes(query.trim().toLowerCase()));}
+
+export function normalizeSearchQuery(query: unknown): string {
+  const values = Array.isArray(query) ? query : [query];
+
+  for (const value of values) {
+    if (typeof value !== "string") continue;
+    const term = value.trim();
+    // Next.js decodes the parameter and represents invalid UTF-8 with U+FFFD.
+    if (term && !/[\u0000-\u001f\u007f\ufffd]/u.test(term)) return term;
+  }
+
+  return "";
+}
