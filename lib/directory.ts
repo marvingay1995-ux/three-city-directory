@@ -9,7 +9,32 @@ export const demoListings = [
 {id:"q2",city:"doha",title:"Community Guide",category:"Lifestyle",description:"Fictional demonstration business profile."}
 ] as const;
 export function getCity(slug:string){return cities.find(city=>city.slug===slug);}
-export function getListings(slug:string,query=""){return demoListings.filter(item=>item.city===slug && `${item.title} ${item.category} ${item.description}`.toLowerCase().includes(query.trim().toLowerCase()));}
+export const categories = [
+  { slug: "creative", label: "Creative" },
+  { slug: "lifestyle", label: "Lifestyle" },
+] as const;
+export type CategorySlug = (typeof categories)[number]["slug"];
+
+export function normalizeCategory(input: unknown): CategorySlug | undefined {
+  const values = Array.isArray(input) ? input : [input];
+  for (const value of values) {
+    if (typeof value !== "string") continue;
+    const slug = value.trim().toLowerCase();
+    const category = categories.find((item) => item.slug === slug);
+    if (category) return category.slug;
+  }
+}
+
+export function getListings(slug: string, query = "", category?: CategorySlug) {
+  const term = query.trim().toLowerCase();
+  const categoryLabel = categories.find((item) => item.slug === category)?.label;
+
+  return demoListings.filter((item) =>
+    item.city === slug &&
+    (!categoryLabel || item.category === categoryLabel) &&
+    `${item.title} ${item.category} ${item.description}`.toLowerCase().includes(term)
+  );
+}
 
 export function normalizeSearchQuery(query: unknown): string {
   const values = Array.isArray(query) ? query : [query];

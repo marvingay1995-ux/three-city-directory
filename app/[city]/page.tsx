@@ -1,5 +1,94 @@
+import Form from "next/form";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { cities, getCity, getListings, normalizeSearchQuery } from "../../lib/directory";
-export function generateStaticParams(){return cities.map(city=>({city:city.slug}));}
-export default async function CityPage({params,searchParams}:{params:Promise<{city:string}>,searchParams:Promise<{q?:string|string[]}>}){const {city:slug}=await params;const city=getCity(slug);if(!city)notFound();const q=normalizeSearchQuery((await searchParams).q);const listings=getListings(slug,q);return <main className="shell"><header><Link className="brand" href="/">THREE CITY DIRECTORY</Link><nav aria-label="Switch city">{cities.map(c=><Link key={c.slug} aria-current={c.slug===slug?"page":undefined} href={`/${c.slug}`}>{c.name}</Link>)}</nav></header><section className="hero"><p className="eyebrow">DEMO DIRECTORY · {city.country.toUpperCase()}</p><h1>{city.flag} Explore {city.name}</h1><p>All profiles are fictional examples. Nothing on this page is a live advertisement.</p><form action={`/${slug}`} className="search"><label htmlFor="q">Search demo listings</label><div><input id="q" name="q" defaultValue={q} placeholder="Search by name or category"/><button type="submit">Search</button></div></form><p className="count">{listings.length} demonstration results</p><div className="listings">{listings.map(item=><article className="listing" key={item.id}><span className="eyebrow">{item.category}</span><h2>{item.title}</h2><p>{item.description}</p><span className="demo">FICTIONAL PROFILE</span></article>)}</div>{listings.length===0&&<p>No matching demo listings.</p>}<Link className="back" href="/">← Change city</Link></section><footer>No payments, contact links, bookings or user-generated listings are enabled.</footer></main>}
+import { DemoNotice, DirectoryFooter, DirectoryHeader } from "../../components/directory-ui";
+import { categories, cities, getCity, getListings, normalizeCategory, normalizeSearchQuery, type CategorySlug } from "../../lib/directory";
+
+type CityPageProps = {
+  params: Promise<{ city: string }>;
+  searchParams: Promise<{ q?: string | string[]; category?: string | string[] }>;
+};
+
+export function generateStaticParams() {
+  return cities.map(({ slug }) => ({ city: slug }));
+}
+
+function categoryHref(path: string, query: string, category?: CategorySlug) {
+  const params = new URLSearchParams();
+  if (query) params.set("q", query);
+  if (category) params.set("category", category);
+  const search = params.toString();
+  return search ? `${path}?${search}` : path;
+}
+
+export default async function CityPage({ params, searchParams }: CityPageProps) {
+  const city = getCity((await params).city);
+  if (!city) notFound();
+
+  const input = await searchParams;
+  const query = normalizeSearchQuery(input.q);
+  const category = normalizeCategory(input.category);
+  const path = `/${city.slug}`;
+  const listings = getListings(city.slug, query, category);
+
+  return (
+    <div className="shell">
+      <DirectoryHeader city={city.slug} />
+      <main id="main-content" tabIndex={-1}>
+        <section className="hero city-hero" aria-labelledby="city-title">
+          <DemoNotice />
+          <h1 id="city-title">Explore <bdi>{city.name}</bdi></h1>
+          <p>{city.country}</p>
+        </section>
+
+        <section className="discovery" aria-labelledby="search-title">
+          <h2 id="search-title">Find a listing</h2>
+          <Form action={path} className="search" key={JSON.stringify([city.slug, query, category])}>
+            <label htmlFor="q">Search demo listings</label>
+            <div className="search-controls">
+              <input id="q" name="q" defaultValue={query} placeholder="Name or category" />
+              {category && <input type="hidden" name="category" value={category} />}
+              <button type="submit">Search</button>
+            </div>
+          </Form>
+          <nav aria-label="Filter by category" className="category-nav">
+            <Link href={categoryHref(path, query)} aria-current={category === undefined ? "true" : undefined} scroll={false}>All categories</Link>
+            {categories.map(({ slug, label }) => (
+              <Link key={slug} href={categoryHref(path, query, slug)} aria-current={category === slug ? "true" : undefined} scroll={false}>{label}</Link>
+            ))}
+          </nav>
+        </section>
+
+        <section className="results" aria-labelledby="results-title">
+          <div className="results-header">
+            <div>
+              <h2 id="results-title">Directory results</h2>
+              <p role="status" aria-atomic="true">{listings.length} {listings.length === 1 ? "listing" : "listings"} in {city.name}</p>
+            </div>
+            {(query || category) && <Link href={path} scroll={false}>Clear filters</Link>}
+          </div>
+          {listings.length ? (
+            <ul className="listing-grid">
+              {listings.map((item) => (
+                <li key={item.id}>
+                  <article className="listing">
+                    <p className="listing-category">{item.category}</p>
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
+                    <span className="listing-label">Fictional profile</span>
+                  </article>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="empty-state">
+              <h3>No matching demo listings</h3>
+              <p>Try a different search term or choose another category.</p>
+            </div>
+          )}
+        </section>
+      </main>
+      <DirectoryFooter />
+    </div>
+  );
+}
