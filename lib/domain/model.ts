@@ -60,8 +60,9 @@ const transitions: Readonly<Record<ListingStatus, readonly ListingStatus[]>> = {
   archived: [],
 };
 export class DomainError extends Error {
-  constructor(readonly code: "INVALID" | "CONFLICT" | "NOT_FOUND" | "ILLEGAL_TRANSITION", message: string) {
-    super(message); this.name = "DomainError";
+  readonly code: "INVALID" | "CONFLICT" | "NOT_FOUND" | "ILLEGAL_TRANSITION";
+  constructor(code: "INVALID" | "CONFLICT" | "NOT_FOUND" | "ILLEGAL_TRANSITION", message: string) {
+    super(message); this.name = "DomainError"; this.code = code;
   }
 }
 function invariant(value: unknown, message: string): asserts value {
