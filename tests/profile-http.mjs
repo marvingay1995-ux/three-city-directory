@@ -18,7 +18,7 @@ for (const [city, cityName, slug, title, category] of profiles) {
   const path = `/${city}/listing/${slug}`;
   const profile = await request(path);
   assert.equal(profile.status, 200, path);
-  const html = await profile.text();
+  const html = (await profile.text()).replaceAll("<!-- -->", "");
   assert.ok(html.includes(`<title>${title} in ${cityName} | Three City Directory Demo</title>`), path);
   assert.match(html, /<meta name="description" content="Fictional /);
   assert.match(html, /<meta name="robots" content="noindex, nofollow"/);

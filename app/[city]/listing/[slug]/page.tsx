@@ -8,8 +8,6 @@ type ProfileProps = {
   params: Promise<{ city: string; slug: string }>;
 };
 
-export const dynamicParams = false;
-
 export function generateStaticParams() {
   return demoListings.map(({ city, slug }) => ({ city, slug }));
 }
