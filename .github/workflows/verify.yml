@@ -22,3 +22,15 @@ jobs:
         run: npm run typecheck
       - name: Production build
         run: npm run build
+      - name: Profile route regression
+        run: |
+          node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3000 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            if curl --silent --fail http://127.0.0.1:3000/ --output /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          node tests/profile-http.mjs http://127.0.0.1:3000

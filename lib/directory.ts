@@ -1,13 +1,23 @@
 export const cities = [{slug:"dubai",name:"Dubai",country:"United Arab Emirates",flag:"🇦🇪"},{slug:"muscat",name:"Muscat",country:"Oman",flag:"🇴🇲"},{slug:"doha",name:"Doha",country:"Qatar",flag:"🇶🇦"}] as const;
 export type CitySlug = (typeof cities)[number]["slug"];
-export const demoListings = [
-{id:"d1",city:"dubai",title:"Creative Studio",category:"Creative",description:"Fictional demonstration business profile."},
-{id:"d2",city:"dubai",title:"City Concierge",category:"Lifestyle",description:"Fictional demonstration business profile."},
-{id:"m1",city:"muscat",title:"Design Workshop",category:"Creative",description:"Fictional demonstration business profile."},
-{id:"m2",city:"muscat",title:"Local Experiences",category:"Lifestyle",description:"Fictional demonstration business profile."},
-{id:"q1",city:"doha",title:"Modern Atelier",category:"Creative",description:"Fictional demonstration business profile."},
-{id:"q2",city:"doha",title:"Community Guide",category:"Lifestyle",description:"Fictional demonstration business profile."}
-] as const;
+export type DemoListing = {
+  readonly id: string;
+  readonly city: CitySlug;
+  readonly slug: string;
+  readonly title: string;
+  readonly category: (typeof categories)[number]["label"];
+  readonly description: string;
+  readonly sponsoredExample?: true;
+};
+
+export const demoListings: readonly DemoListing[] = [
+{id:"d1",slug:"creative-studio",city:"dubai",title:"Creative Studio",sponsoredExample:true,category:"Creative",description:"Fictional demonstration business profile."},
+{id:"d2",slug:"city-concierge",city:"dubai",title:"City Concierge",category:"Lifestyle",description:"Fictional demonstration business profile."},
+{id:"m1",slug:"design-workshop",city:"muscat",title:"Design Workshop",category:"Creative",description:"Fictional demonstration business profile."},
+{id:"m2",slug:"local-experiences",city:"muscat",title:"Local Experiences",category:"Lifestyle",description:"Fictional demonstration business profile."},
+{id:"q1",slug:"modern-atelier",city:"doha",title:"Modern Atelier",category:"Creative",description:"Fictional demonstration business profile."},
+{id:"q2",slug:"community-guide",city:"doha",title:"Community Guide",category:"Lifestyle",description:"Fictional demonstration business profile."}
+];
 export function getCity(slug:string){return cities.find(city=>city.slug===slug);}
 export const categories = [
   { slug: "creative", label: "Creative" },
@@ -47,4 +57,12 @@ export function normalizeSearchQuery(query: unknown): string {
   }
 
   return "";
+}
+
+export function getListing(city: CitySlug, slug: string): DemoListing | undefined {
+  return demoListings.find((listing) => listing.city === city && listing.slug === slug);
+}
+
+export function getListingPath({ city, slug }: Pick<DemoListing, "city" | "slug">): string {
+  return `/${city}/listing/${slug}`;
 }
