@@ -1,4 +1,4 @@
-import Form from "next/form";
+import { DirectorySearch } from "../../components/directory-search";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DemoNotice, DirectoryFooter, DirectoryHeader } from "../../components/directory-ui";
@@ -43,14 +43,7 @@ export default async function CityPage({ params, searchParams }: CityPageProps) 
 
         <section className="discovery" aria-labelledby="search-title">
           <h2 id="search-title">Find a listing</h2>
-          <Form action={path} className="search" key={JSON.stringify([city.slug, query, category])}>
-            <label htmlFor="q">Search demo listings</label>
-            <div className="search-controls">
-              <input id="q" name="q" defaultValue={query} placeholder="Name or category" />
-              {category && <input type="hidden" name="category" value={category} />}
-              <button type="submit">Search</button>
-            </div>
-          </Form>
+          <DirectorySearch path={path} query={query} category={category} />
           <nav aria-label="Filter by category" className="category-nav">
             <Link href={categoryHref(path, query)} aria-current={category === undefined ? "true" : undefined} scroll={false}>All categories</Link>
             {categories.map(({ slug, label }) => (
