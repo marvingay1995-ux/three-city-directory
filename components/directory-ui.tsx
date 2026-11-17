@@ -25,3 +25,7 @@ export function DirectoryHeader({ city }: { city?: CitySlug }) {
 export function DirectoryFooter() {
   return <footer>Three City Directory <span>Fictional listings for demonstration only.</span></footer>;
 }
+
+export function SponsoredExample() {
+  return <span className="sponsored-example">Sponsored — example only</span>;
+}

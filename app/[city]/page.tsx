@@ -1,8 +1,8 @@
 import { DirectorySearch } from "../../components/directory-search";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { DemoNotice, DirectoryFooter, DirectoryHeader } from "../../components/directory-ui";
-import { categories, cities, getCity, getListings, normalizeCategory, normalizeSearchQuery, type CategorySlug } from "../../lib/directory";
+import { DemoNotice, DirectoryFooter, DirectoryHeader, SponsoredExample } from "../../components/directory-ui";
+import { categories, cities, getCity, getListingPath, getListings, normalizeCategory, normalizeSearchQuery, type CategorySlug } from "../../lib/directory";
 
 type CityPageProps = {
   params: Promise<{ city: string }>;
@@ -66,9 +66,10 @@ export default async function CityPage({ params, searchParams }: CityPageProps) 
                 <li key={item.id}>
                   <article className="listing">
                     <p className="listing-category">{item.category}</p>
-                    <h3>{item.title}</h3>
+                    <h3 className="listing-title"><Link href={getListingPath(item)}>{item.title}</Link></h3>
                     <p>{item.description}</p>
                     <span className="listing-label">Fictional profile</span>
+                    {item.sponsoredExample && <SponsoredExample />}
                   </article>
                 </li>
               ))}
