@@ -14,15 +14,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Generate reviewed lockfile for dependency remediation
-        run: |
-          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
-          echo LOCKFILE_BASE64_START
-          base64 -w0 package-lock.json
-          echo
-          echo LOCKFILE_BASE64_END
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
+      - name: Security audit (high and critical)
+        run: npm audit --audit-level=high
       - name: Unit tests
         run: npm test
       - name: TypeScript validation
