@@ -1,0 +1,25 @@
+# Dependencies, compatibility and supply chain
+
+## What SEC-001 changed
+
+[PR #20](https://github.com/marvingay1995-ux/three-city-directory/pull/20/files) added a root-wide package-name override for PostCSS, regenerated the lockfile, and added two audit steps. It kept Next.js 15.5.29 and changed the PostCSS resolved package from 8.4.31 to 8.5.23. The lockfile shows changed PostCSS dependency ranges for nanoid, picocolors and source-map-js. An npm override affects any consumer of that package name in the root graph, although the inspected graph resolves it through Next.js. See the [provenance ledger](evidence.md).
+
+The exact Next.js dependency pin is 8.4.31, rather than a semver range that accepts 8.5.23. npm documents that an override intentionally replaces transitive resolution. It does not establish that the importing framework maintainer supports the alternate package. No upstream commitment to support this exact pair was established. [npm overrides](https://docs.npmjs.com/cli/v11/configuring-npm/package-json/#overrides) · [Next.js release](https://github.com/vercel/next.js/releases/tag/v15.5.29) · [PostCSS changelog](https://github.com/postcss/postcss/blob/main/CHANGELOG.md)
+
+## Advisories and compatibility judgment
+
+The four historical Phase 6 PostCSS advisories cover CSS serialization and previous source-map handling. Advisory pages list first patched releases of 8.5.10 (CSS serialization), 8.5.12 (source maps), 8.5.23 (incomplete fix) and 8.5.18 (other source-map advisory). The resolved 8.5.23 meets all four version thresholds. The two fresh audit invocations returned zero findings and are dated registry snapshots. Treat that as a version/applicability assessment, not a proof that future security issues are absent. [CSS serialization](https://github.com/advisories/GHSA-qx2v-qp2m-jg93) · [Source-map advisory](https://github.com/advisories/GHSA-6g55-p6wh-862q) · [Incomplete-fix advisory](https://github.com/postcss/postcss/security/advisories/GHSA-fxqj-rqcc-2cmp) · [Other source-map advisory](https://github.com/advisories/GHSA-r28c-9q8g-f849)
+
+Next's installed webpack CSS block imports PostCSS and configures plugins in the CSS pipeline. The production build compiles the checked-in global stylesheet, and the HTTP regressions exercise built pages. The result supports this particular demo release path. It leaves custom plugins, alternate CSS entrypoints, CSS maps, third-party styles, alternate bundlers and platform parity outside coverage. The source does not accept user CSS, custom source maps or uploaded media. The live reachability of those PostCSS paths is unproven; the relevant reviewed boundary is build inputs and tooling. Do not introduce arbitrary style/media preprocessing relying on this assessment.
+
+**Options for separate review:** retain the override temporarily with a named owner, documented exception, update trigger and expiry; prefer a maintained Next release whose native graph resolves a supported safe PostCSS when qualified review validates it. Do not drop the override to restore the vulnerable pin. Any package/major-framework change requires separate approval and compatibility evidence.
+
+## Workflow review
+
+| Control | Observed evidence or gap | Proposed disposition |
+| --- | --- | --- |
+| Reproducible inputs | Lockfile and `npm ci` enforce dependency selection and integrity; Node 22 major and Ubuntu latest are moving selections. | Capture versions, image and lockfile digest per evidence run. Compare SBOM to installed output. Establish supported runtime patch cadence. |
+| Token and triggers | Workflow specifies `contents: read`, PR and main-push triggers and a bounded job. | Independently verify branch rules, required checks, runner trust, secret isolation, token inheritance and review rights. Repository settings were not audited or changed. |
+| Action provenance | Checkout and setup-node use movable `@v4` tags. Workflow declares no pinned commit SHAs or provenance verification. | Propose reviewed full SHA pinning with documented update/rollback process. No permission or workflow changes here. |
+| Full audit and severity gate | Plain `npm audit --json` runs before `npm audit --audit-level=high`. With default threshold the first step can fail on a lower-severity finding and prevent the next gate and later tests from running. Neither command is itself an offline fallback. | Separate inventory collection and enforcement with explicit policy for registry errors vs advisories, preserve machine-readable outputs and ensure follow-on evidence runs without bypassing an actual blocker. See [npm audit semantics](https://docs.npmjs.com/cli/v10/commands/npm-audit/). |
+| Detection and retention | No scheduled advisory scan, retained audit artifact, SBOM or secret scanning step in this workflow. GitHub or organizational settings outside the file are unknown. | Propose dependency monitoring with named triage owner, review cadence, severity deadlines, expiry for exceptions and tested failure notifications. Inventory provenance and secret scanning before an independent sign-off. |
