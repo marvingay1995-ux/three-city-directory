@@ -56,3 +56,8 @@ for (const path of ["/dubai/listing/%FF", "/dubai/listing/%"]) {
 }
 
 console.log("Passed six profile pages and filtered directory links, 12 cross-city 404s, four invalid-route 404s, and two malformed encoding checks.");
+
+for (const path of ["/admin", "/admin/moderation", "/api/admin", "/api/moderation"]) {
+  assert.equal((await request(path)).status, 404, path);
+}
+console.log("Offline boundary verified: admin and moderation URLs return 404.");
