@@ -10,23 +10,30 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '22'
       - name: Install dependencies
+        id: install
         run: npm ci --no-audit --no-fund
-      - name: Full dependency audit (JSON)
-        run: npm audit --json
-      - name: Security audit (high and critical)
-        run: npm audit --audit-level=high
       - name: Unit tests
+        id: unit
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: npm test
       - name: TypeScript validation
+        id: typecheck
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: npm run typecheck
       - name: Production build
+        id: build
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: npm run build
       - name: Profile route regression
+        id: http
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: |
           node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3000 &
           server_pid=$!
@@ -38,3 +45,48 @@ jobs:
             sleep 1
           done
           node tests/profile-http.mjs http://127.0.0.1:3000
+      - name: Capture fresh npm audit evidence
+        id: audit
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: node tools/audit-evidence.mjs collect "$RUNNER_TEMP/sec003"
+      - name: Enforce audit policy
+        if: ${{ !cancelled() }}
+        env:
+          COLLECTION_OUTCOME: ${{ steps.audit.outcome }}
+        run: node tools/audit-evidence.mjs evaluate "$RUNNER_TEMP/sec003" "$COLLECTION_OUTCOME"
+      - name: Record functional outcomes
+        if: ${{ !cancelled() }}
+        env:
+          INSTALL_OUTCOME: ${{ steps.install.outcome }}
+          UNIT_OUTCOME: ${{ steps.unit.outcome }}
+          TYPES_OUTCOME: ${{ steps.typecheck.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          HTTP_OUTCOME: ${{ steps.http.outcome }}
+        run: |
+          umask 077
+          mkdir -p "$RUNNER_TEMP/sec003"
+          jq -n '{
+            install: env.INSTALL_OUTCOME, unit: env.UNIT_OUTCOME, typecheck: env.TYPES_OUTCOME,
+            build: env.BUILD_OUTCOME, http: env.HTTP_OUTCOME
+          }' > "$RUNNER_TEMP/sec003/functional-results.json"
+      - name: Verify required evidence files
+        if: ${{ !cancelled() }}
+        run: |
+          for name in audit.json execution.json decision.json functional-results.json; do
+            if ! test -s "$RUNNER_TEMP/sec003/$name"; then
+              echo "::error::Required CI evidence is missing or empty: $name"
+              exit 1
+            fi
+          done
+      - name: Upload security and functional evidence
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: sec003-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/sec003/audit.json
+            ${{ runner.temp }}/sec003/execution.json
+            ${{ runner.temp }}/sec003/decision.json
+            ${{ runner.temp }}/sec003/functional-results.json
+          if-no-files-found: error
+          retention-days: 14
