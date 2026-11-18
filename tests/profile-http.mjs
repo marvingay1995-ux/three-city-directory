@@ -61,3 +61,9 @@ for (const path of ["/admin", "/admin/moderation", "/api/admin", "/api/moderatio
   assert.equal((await request(path)).status, 404, path);
 }
 console.log("Offline boundary verified: admin and moderation URLs return 404.");
+
+for (const path of ["/ads", "/advertising", "/api/ads", "/api/advertising", "/admin/ads"]) {
+  assert.equal((await request(path)).status, 404, path);
+}
+assert.ok(!(await (await request("/dubai")).text()).includes("Sponsored — simulation only"));
+console.log("Advertising prototype remains offline and public advertising URLs return 404.");
