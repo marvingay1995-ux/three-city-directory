@@ -21,7 +21,7 @@ A narrow npm `overrides.postcss` constraint selects patched PostCSS without a ma
 ## Verified CI evidence
 
 - [Node 22 CI run 44284699074](https://github.com/marvingay1995-ux/three-city-directory/actions/runs/44284699074) passed clean npm installation, the `npm audit --audit-level=high` check (reported **0 vulnerabilities**), **52/52 tests**, TypeScript, production build and existing loopback HTTP route regressions, including admin and advertising 404s.
-- The final CI configuration additionally runs `npm audit --json` to preserve a complete machine-readable advisory result in job logs. Confirm the result from the new workflow run before approving the PR.
+- [Node 22 CI run 44284871049](https://github.com/marvingay1995-ux/three-city-directory/actions/runs/44284871049) passed the **full fresh `npm audit --json`**: `vulnerabilities: {}`, with **0 info, low, moderate, high and critical advisories** reported by the audit registry. The severity-gated check, 52 tests, typecheck, build and loopback HTTP regressions also passed. This is a registry snapshot, not a permanent guarantee against future advisories.
 - No framework major-version upgrade, changes to public routes or external integrations occurred.
 
 ## Verification and audit gate
