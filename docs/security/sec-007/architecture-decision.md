@@ -1,0 +1,15 @@
+# ADR SEC-007 — Proposed identity and write architecture
+
+**Status: PROPOSED, unsigned. Decision owner: product owner.** This ADR recommends evaluating A first. No provider, engine, region, infrastructure or budget is selected. See [D7 register](decision-register.md).
+
+| Issue | A: server-mediated browser session and scoped authoritative writer | B: API-first bearer and separately evaluated policy |
+| --- | --- | --- |
+| Identity boundary | Issuer tokens stay server-side; opaque browser session, scoped cookie, CSRF and origin checks are required. | Audience-scoped short-lived API bearer tokens suit more clients. Token replay/transport, browser exposure, issuers, refresh and session/CSRF flows need review. |
+| Revocation and freshness | Writer can enforce grant/session/policy freshness at commit and replay. Session/authority failure can deny writes; recovery needs explicit ownership and scoped availability. | A separate policy service improves reuse but creates distributed authority, cache and outage risks. A stale permit or brief TTL cannot stand in for the A7-05 fence. |
+| City and operations | Constrain writer, workers and cache by explicit city. Simpler initial service trust surface, but writer/session outages, isolation, on-call and recovery still require proof. | Independently scoped services and clients need versioned grant checks, consistent city enforcement and separate operational/key overhead. |
+| Transaction and custody | Candidate transactional state/event/receipt/outbox writer with independent custody and reconciled projection. | Same atomic contract even with distributed policy. Separate audit API does not make a write atomic. Requires cross-service fencing and approved reconciliation. |
+| Consistency alternatives | Transactional relational writer with scoped constraints and outbox is the first comparison case. | Partitioned ordered log or transactional key/value writer can fit approved boundaries only with equivalent fencing and proof. Both are engine-neutral candidates. |
+
+SEC-005 verifies two deterministic commit orders, rollback and receipt recovery in one process. It supports the testability rationale of A, with no evidence of production durability or issuer behavior. A fits a future browser-led initial scope and limits token/service exposure. Compare again if a separately approved client needs native API access, authority/restore objectives cannot be met, or jurisdiction prevents the original flow layout. Any exception requires written scope, rationale, accountable reviewer, expiry and equivalent controls. It cannot waive A7/T7/P7 invariants without a formal superseding review.
+
+**Approval still outstanding:** AppSec/IAM verifies session and commit/replay authority, Data proves engine and recovery invariants, Privacy/qualified counsel approve scoped flows and custody, independent Security reviews negative-test scope and evidence, and product owner decides in writing. SEC-006 remains the comparison baseline. Do not start implementation or supplier selection from this ADR. [SEC-006 matrix](../sec-006/decision-matrix.md)
