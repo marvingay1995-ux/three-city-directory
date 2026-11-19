@@ -35,15 +35,30 @@ export function normalizeCategory(input: unknown): CategorySlug | undefined {
   }
 }
 
-export function getListings(slug: string, query = "", category?: CategorySlug) {
+export type ListingSort = "original" | "name-asc" | "name-desc";
+
+export function normalizeListingSort(input: unknown): ListingSort {
+  const values = Array.isArray(input) ? input : [input];
+  for (const value of values) {
+    if (value === "original" || value === "name-asc" || value === "name-desc") return value;
+  }
+  return "original";
+}
+
+export function getListings(slug: string, query = "", category?: CategorySlug, sort: ListingSort = "original") {
   const term = query.trim().toLowerCase();
   const categoryLabel = categories.find((item) => item.slug === category)?.label;
 
-  return demoListings.filter((item) =>
+  const items = demoListings.filter((item) =>
     item.city === slug &&
     (!categoryLabel || item.category === categoryLabel) &&
     `${item.title} ${item.category} ${item.description}`.toLowerCase().includes(term)
   );
+  if (sort === "original") return items;
+  return [...items].sort((a, b) => {
+    const comparison = a.title.localeCompare(b.title, "en");
+    return sort === "name-asc" ? comparison : -comparison;
+  });
 }
 
 export function normalizeSearchQuery(query: unknown): string {
