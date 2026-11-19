@@ -536,3 +536,11 @@ footer small { display:block; margin-top:5px; font-size:10px; }
 .profile-shortcuts a:hover { background:#2c241c; }
 @media(max-width:520px) { .demo-gallery-picker { grid-template-columns:1fr; } .demo-gallery-stage{min-height:310px;} .demo-gallery-thumb-art{width:54px;height:54px;} .demo-gallery-caption{bottom:18px;left:18px;} }
 @media(prefers-reduced-motion:reduce) { .demo-gallery-stage { transition:none; } }
+
+/* Optional URL-based sorting of fictional listings */
+.sort-nav {display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:2px 0 20px;}
+.sort-nav > span {font-size:.8rem;color:var(--muted);margin-inline-end:6px;}
+.sort-nav a {min-height:40px;display:inline-flex;align-items:center;padding:8px 14px;border:1px solid #65515c;border-radius:100px;text-decoration:none;color:#e9d9db;font-size:.8rem;}
+.sort-nav a:hover {background:#30252e;}
+.sort-nav a[aria-current="true"] {border-color:var(--accent);background:#38272f;color:#f5d1d1;font-weight:700;}
+@media(max-width:480px) {.sort-nav {gap:6px;} .sort-nav > span{width:100%;} .sort-nav a{font-size:.73rem;padding-inline:10px;}}
