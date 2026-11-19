@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DemoNotice, DirectoryFooter, DirectoryHeader, SponsoredExample } from "../../../../components/directory-ui";
+import { DemoGallery } from "../../../../components/demo-gallery";
 import { demoListings, getCity, getListing, normalizeCategory } from "../../../../lib/directory";
 
 type ProfileProps = { params: Promise<{ city: string; slug: string }> };
@@ -44,11 +45,13 @@ export default async function ProfilePage({ params }: ProfileProps) {
       </section>
       <section className="profile-gallery" aria-labelledby="gallery-title">
         <div className="section-heading compact"><div><span className="eyebrow">01 / GALLERY</span><h2 id="gallery-title">A closer look<span className="punctuation">.</span></h2></div><span className="results-small">CONCEPT IMAGERY ONLY</span></div>
-        <div className="gallery-grid">
-          <figure><div className="gallery-placeholder gallery-primary" aria-hidden="true"><span>✳</span></div><figcaption>Overview image placeholder</figcaption></figure>
-          <figure><div className="gallery-placeholder gallery-secondary" aria-hidden="true"><span>◈</span></div><figcaption>Detail image placeholder</figcaption></figure>
-        </div>
+        <DemoGallery title={listing.title} />
       </section>
+      <nav className="profile-shortcuts" aria-label="Profile sections">
+        <a href="#details-title">Profile details</a>
+        <a href="#report-title">Safety and reporting</a>
+        <Link href={directory}>Explore more in {city.name}</Link>
+      </nav>
       <section className="profile-details" aria-labelledby="details-title">
         <span className="eyebrow">02 / INFORMATION</span><h2 id="details-title">Profile details</h2>
         <dl>
