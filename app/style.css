@@ -511,3 +511,28 @@ footer { margin-top:20px; border-top-color:#4c4034; }
 footer small { display:block; margin-top:5px; font-size:10px; }
 @media(max-width:850px) { .home-hero { grid-template-columns:1fr; } .hero-art { height:280px; max-width:420px; width:100%; margin:auto; } .city-grid {grid-template-columns:1fr 1fr;} .header-tag{display:none;} }
 @media(max-width:620px) { .site-header{min-height:68px;} .brand-mark{font-size:25px;} .brand{font-size:10px;} .city-nav{order:3;width:100%;justify-content:center;margin:auto;} .city-nav a{font-size:10px;} .home-hero{padding-top:38px;} .home-hero h1{font-size:66px;} .hero-art{height:210px;max-width:300px;} .city-grid,.listing-grid{grid-template-columns:1fr;} .city-card{min-height:310px;} .city-card-art{height:145px;} .city-art-circle{width:128px;height:128px;top:10px;} .section-heading{display:block;} .section-heading>p{margin-top:8px;} .studio-panel{padding:30px;margin-bottom:50px;} .city-deco{width:75px;height:75px;font-size:27px;} .city-deco span{display:none;} .city-heading h1{font-size:56px;} .discovery{padding:21px;} .results-small{display:none;} .listing-visual{min-height:200px;} .home-hero .hero-detail{font-size:12px!important;} }
+
+/* Fictional gallery interaction and profile quick navigation */
+.demo-gallery { margin-top:18px; }
+.demo-gallery-stage { position:relative; min-height:clamp(270px,42vw,490px); overflow:hidden; border:1px solid #584536; border-radius:8px; display:flex; align-items:center; justify-content:center; isolation:isolate; transition:background .18s; }
+.demo-gallery-stage.gallery-overview { background:radial-gradient(circle at 63% 43%,#805a55 0,#3c2930 39%,#1b1d21 75%); }
+.demo-gallery-stage.gallery-detail { background:radial-gradient(ellipse at 33% 47%,#8a765f 0,#4c403b 31%,#1c1d20 75%); }
+.demo-gallery-stage::before { content:""; position:absolute; width:min(60vw,340px); height:min(60vw,340px); border:1px solid #e7c18e77; border-radius:50%; transform:rotate(-24deg) scaleX(.8); }
+.demo-gallery-symbol { font-size:clamp(105px,18vw,220px); color:#e7c18eaa; z-index:1; line-height:1; }
+.demo-gallery-stamp { position:absolute; top:22px; left:22px; font-size:10px; letter-spacing:.14em; color:#f3dfc3; }
+.demo-gallery-caption { position:absolute; bottom:24px; left:24px; right:24px; display:flex; flex-direction:column; gap:8px; }
+.demo-gallery-caption span { font-size:10px; color:#d8b984; letter-spacing:.18em; }
+.demo-gallery-caption strong { font-size:clamp(20px,3.8vw,38px); letter-spacing:-.04em; }
+.demo-gallery-picker { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:14px; }
+.demo-gallery-thumb { display:flex; align-items:center; gap:16px; text-align:left; border:1px solid #554637; border-radius:6px; background:#161718; color:#f6f0e5; font-size:13px; font-weight:500; padding:12px; }
+.demo-gallery-thumb[aria-pressed="true"] { border-color:#e3cb92; background:#2c241c; }
+.demo-gallery-thumb:hover { background:#292420; }
+.demo-gallery-thumb-art { display:grid; place-items:center; flex:none; width:62px; height:62px; background:radial-gradient(circle,#76574c,#302326); border-radius:4px; color:#d8b984; font-size:30px; }
+.demo-gallery-thumb.gallery-detail .demo-gallery-thumb-art { background:radial-gradient(circle,#81705a,#33302e); }
+.demo-gallery-thumb small { display:block; margin-bottom:5px; color:#d8b984; letter-spacing:.14em; }
+.demo-gallery-note { margin-top:13px; font-size:12px; color:var(--muted); line-height:1.6; }
+.profile-shortcuts { display:flex; flex-wrap:wrap; gap:10px; margin-top:26px; }
+.profile-shortcuts a { display:inline-flex; align-items:center; min-height:44px; border:1px solid #544637; border-radius:100px; padding:10px 16px; text-decoration:none; font-size:12px; color:#e3cb92; }
+.profile-shortcuts a:hover { background:#2c241c; }
+@media(max-width:520px) { .demo-gallery-picker { grid-template-columns:1fr; } .demo-gallery-stage{min-height:310px;} .demo-gallery-thumb-art{width:54px;height:54px;} .demo-gallery-caption{bottom:18px;left:18px;} }
+@media(prefers-reduced-motion:reduce) { .demo-gallery-stage { transition:none; } }
