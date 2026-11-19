@@ -1,8 +1,9 @@
+import { DemoCompare } from "../../components/demo-compare";
 import { DirectorySearch } from "../../components/directory-search";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { DemoNotice, DirectoryFooter, DirectoryHeader, SponsoredExample } from "../../components/directory-ui";
-import { categories, cities, getCity, getListingPath, getListings, normalizeCategory, normalizeSearchQuery, normalizeListingSort, type ListingSort, type CategorySlug } from "../../lib/directory";
+import { DemoNotice, DirectoryFooter, DirectoryHeader } from "../../components/directory-ui";
+import { categories, cities, getCity, getListings, normalizeCategory, normalizeSearchQuery, normalizeListingSort, type ListingSort, type CategorySlug } from "../../lib/directory";
 
 type CityPageProps = {
   params: Promise<{ city: string }>;
@@ -54,14 +55,7 @@ export default async function CityPage({ params, searchParams }: CityPageProps) 
             <Link href={sortHref(path, query, category, "name-asc")} aria-current={sort === "name-asc" ? "true" : undefined} scroll={false}>Name A–Z</Link>
             <Link href={sortHref(path, query, category, "name-desc")} aria-current={sort === "name-desc" ? "true" : undefined} scroll={false}>Name Z–A</Link>
           </nav>
-          {listings.length ? <ul className="listing-grid">
-            {listings.map((item, index) => (
-              <li key={item.id}><article className="listing">
-                <Link href={getListingPath(item)} className={`listing-visual visual-${item.category.toLowerCase()}`} aria-label={`Explore ${item.title}`}><span className="visual-symbol" aria-hidden="true">{item.category === "Creative" ? "✳" : "◈"}</span><span className="visual-number">0{index + 1}</span></Link>
-                <div className="listing-content"><p className="listing-category">{item.category} / {city.name}</p><h3 className="listing-title"><Link href={getListingPath(item)}>{item.title}</Link></h3><p>{item.description}</p><span className="listing-label">Fictional profile</span>{item.sponsoredExample && <SponsoredExample />}<Link className="listing-open" href={getListingPath(item)}>View profile <span aria-hidden="true">↗</span></Link></div>
-              </article></li>
-            ))}
-          </ul> : <div className="empty-state"><h3>No matching demo listings</h3><p>Try a different search term or choose another category.</p></div>}
+          {listings.length ? <DemoCompare listings={listings} city={city.name} /> : <div className="empty-state"><h3>No matching demo listings</h3><p>Try a different search term or choose another category.</p></div>}
         </section>
       </main>
       <DirectoryFooter />

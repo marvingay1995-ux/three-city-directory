@@ -544,3 +544,25 @@ footer small { display:block; margin-top:5px; font-size:10px; }
 .sort-nav a:hover {background:#30252e;}
 .sort-nav a[aria-current="true"] {border-color:var(--accent);background:#38272f;color:#f5d1d1;font-weight:700;}
 @media(max-width:480px) {.sort-nav {gap:6px;} .sort-nav > span{width:100%;} .sort-nav a{font-size:.73rem;padding-inline:10px;}}
+
+/* Side-by-side fictional profile comparison — session-only component state */
+.compare-intro {display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin:8px 0 20px;color:var(--muted);font-size:.84rem;}
+.compare-intro > span {color:var(--accent);white-space:nowrap;}
+.compare-toggle {background:transparent;color:#f0c6c8;border:1px solid #86636f;border-radius:5px;min-height:44px;font-size:.78rem;margin-top:16px;}
+.compare-toggle:hover:not(:disabled) {background:#352730;}
+.compare-toggle[aria-pressed="true"] {background:#38272f;color:#f6d7d9;}
+.compare-toggle:disabled {opacity:.45;cursor:not-allowed;}
+.compare-panel {margin:28px 0 48px;background:#1b171d;border:1px solid #725363;border-radius:12px;padding:clamp(16px,4vw,32px);}
+.compare-panel-head {display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.compare-panel h3 {font-size:clamp(1.35rem,3vw,1.8rem);margin-top:6px;}
+.compare-panel > p {color:var(--muted);margin:12px 0 24px;font-size:.88rem;}
+.compare-clear {font-size:.8rem;background:transparent;border:1px solid #86636f;color:#f0c6c8;}
+.compare-clear:hover {background:#352730;}
+.compare-table-wrap {overflow-x:auto;}
+.compare-table {width:100%;border-collapse:collapse;text-align:left;min-width:420px;font-size:.85rem;}
+.compare-table caption {text-align:left;color:var(--muted);margin-bottom:12px;}
+.compare-table th,.compare-table td {padding:16px 12px;border-bottom:1px solid #4b3b45;vertical-align:top;}
+.compare-table th {font-weight:650;}
+.compare-table th:first-child {width:30%;color:#f0c6c8;}
+.compare-table a {color:var(--accent);text-underline-offset:4px;}
+@media(max-width:520px) {.compare-intro{display:block;}.compare-intro>span{display:block;margin-top:8px;}.compare-toggle{width:100%;}}
