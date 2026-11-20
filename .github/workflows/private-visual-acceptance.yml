@@ -1,0 +1,53 @@
+name: Private local visual acceptance
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'tools/visual-acceptance.mjs'
+      - '.github/workflows/private-visual-acceptance.yml'
+permissions:
+  contents: read
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Check available headless browser
+        run: |
+          command -v google-chrome || command -v chromium || command -v chromium-browser
+      - name: Clean dependency installation
+        run: npm ci --no-audit --no-fund
+      - name: Unit tests
+        run: npm test
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Production build
+        run: npm run build
+      - name: Capture actual local browser screenshots
+        run: |
+          node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3000 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            if curl --silent --fail http://127.0.0.1:3000/ --output /dev/null; then break; fi
+            sleep 1
+          done
+          node tests/profile-http.mjs http://127.0.0.1:3000
+          node tools/visual-acceptance.mjs "$RUNNER_TEMP/visual-review"
+      - name: Fresh dependency audit evidence
+        run: |
+          node tools/audit-evidence.mjs collect "$RUNNER_TEMP/sec003"
+          node tools/audit-evidence.mjs evaluate "$RUNNER_TEMP/sec003" success
+      - name: Upload private visual review gallery
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: private-visual-acceptance-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/visual-review/
+          if-no-files-found: error
+          retention-days: 14
