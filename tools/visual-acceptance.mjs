@@ -26,16 +26,28 @@ const views = [
 const captures = [];
 for (const [name, path, width, height] of views) {
   const url = origin + path;
-  const response = await fetch(url, { redirect: "manual" });
+  console.log(`Checking ${name} on loopback`);
+  let response;
+  for (let attempt = 0; attempt < 5; attempt++) {
+    try {
+      response = await fetch(url, { redirect: "manual", headers: { connection: "close" } });
+      break;
+    } catch (error) {
+      console.warn(`Transient local fetch error for ${name} (attempt ${attempt + 1}): ${String(error)}`);
+      if (attempt === 4) throw error;
+      await new Promise(resolve => setTimeout(resolve, 600 * (attempt + 1)));
+    }
+  }
   if (response.status !== 200) throw new Error(`Unexpected HTTP ${response.status} for ${url}`);
   const html = await response.text();
   if (!/All listings are fictional\./.test(html) || !/noindex, nofollow/.test(html)) throw new Error(`Missing fictional/noindex disclosure: ${path}`);
   const filepath = join(out, name + ".png");
-  const args = ["--headless", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage", "--hide-scrollbars", "--disable-extensions", "--disable-background-networking", "--no-first-run", "--force-device-scale-factor=1", `--window-size=${width},${height}`, "--virtual-time-budget=2500", `--screenshot=${filepath}`, url];
+  const args = ["--headless", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage", "--hide-scrollbars", "--disable-extensions", "--disable-background-networking", "--disable-software-rasterizer", "--renderer-process-limit=1", "--no-zygote", "--no-first-run", "--force-device-scale-factor=1", `--window-size=${width},${height}`, "--virtual-time-budget=2500", `--screenshot=${filepath}`, url];
   const p = spawnSync(browser, args, { encoding: "utf8", timeout: 25000 });
   if (p.status !== 0 || !existsSync(filepath)) throw new Error(`Screenshot failure on ${name}: ${(p.stderr ?? "").slice(-700)}`);
   const bytes = readFileSync(filepath);
   if (bytes.subarray(0, 8).toString("hex") !== "89504e470d0a1a0a") throw new Error(`Invalid screenshot: ${name}`);
+  console.log(`Captured screenshot: ${name} (${bytes.length} bytes)`);
   captures.push({ name, path, viewport: { width, height }, file: name + ".png", bytes: bytes.length, sha256: createHash("sha256").update(bytes).digest("hex") });
 }
 const sha = spawnSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).stdout.trim();
