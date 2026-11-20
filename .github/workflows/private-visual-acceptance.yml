@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'tools/visual-acceptance.mjs'
+      - 'tools/interactive-acceptance.mjs'
       - '.github/workflows/private-visual-acceptance.yml'
 permissions:
   contents: read
@@ -40,6 +41,7 @@ jobs:
           done
           node tests/profile-http.mjs http://127.0.0.1:3000
           node tools/visual-acceptance.mjs "$RUNNER_TEMP/visual-review"
+          node tools/interactive-acceptance.mjs "$RUNNER_TEMP/visual-review"
       - name: Fresh dependency audit evidence
         run: |
           node tools/audit-evidence.mjs collect "$RUNNER_TEMP/sec003"
