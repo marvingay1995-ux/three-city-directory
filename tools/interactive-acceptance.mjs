@@ -86,6 +86,16 @@ try {
   await evaluate("document.querySelectorAll('.demo-gallery-thumb')[0].click()");
   await awaitUntil(async () => (await evaluate("document.querySelector('.demo-gallery-stage')?.classList.contains('gallery-overview')")) === true, "gallery reset");
   record("Gallery interaction", "Detail and Overview buttons switch visible React state");
+  await evaluate("document.querySelector('.gallery-nav-button:last-of-type').click()");
+  await awaitUntil(async () => (await evaluate("document.querySelector('.demo-gallery-stage')?.classList.contains('gallery-detail')")) === true, "next gallery navigation");
+  assert.equal(await evaluate("document.querySelector('.gallery-position')?.textContent?.trim()"), "02 / 02");
+  await evaluate("document.querySelector('.demo-gallery-thumb.gallery-detail').focus()");
+  await call("Input.dispatchKeyEvent", { type: "rawKeyDown", key: "ArrowLeft", code: "ArrowLeft", windowsVirtualKeyCode: 37 });
+  await call("Input.dispatchKeyEvent", { type: "keyUp", key: "ArrowLeft", code: "ArrowLeft", windowsVirtualKeyCode: 37 });
+  await awaitUntil(async () => (await evaluate("document.querySelector('.demo-gallery-stage')?.classList.contains('gallery-overview')")) === true, "keyboard gallery navigation");
+  assert.equal(await evaluate("document.activeElement?.classList.contains('gallery-overview')"), true);
+  record("Gallery enhanced controls", "Next button and actual ArrowLeft keyboard input update selection and focus");
+
   // Accessibility acceptance matrix — genuine viewport emulation and keyboard events.
   for (const width of [320, 375, 390, 768, 1024]) {
     const height = width < 400 ? 844 : 900;
