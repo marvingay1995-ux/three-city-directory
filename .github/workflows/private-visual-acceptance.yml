@@ -6,6 +6,7 @@ on:
       - 'app/**'
       - 'components/**'
       - 'lib/demo-editorial.ts'
+      - 'tools/full-page-acceptance.mjs'
       - 'tools/visual-acceptance.mjs'
       - 'tools/interactive-acceptance.mjs'
       - '.github/workflows/private-visual-acceptance.yml'
@@ -44,6 +45,7 @@ jobs:
           done
           node tests/profile-http.mjs http://127.0.0.1:3000
           node tools/visual-acceptance.mjs "$RUNNER_TEMP/visual-review"
+          node tools/full-page-acceptance.mjs "$RUNNER_TEMP/visual-review"
           node tools/interactive-acceptance.mjs "$RUNNER_TEMP/visual-review"
       - name: Fresh dependency audit evidence
         run: |
