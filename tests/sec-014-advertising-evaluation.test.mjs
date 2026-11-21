@@ -15,7 +15,7 @@ test("SEC-014 enforces legible sponsorship and preserves organic and city separa
   assert.match(product,/no cross-city leakage/);
   assert.match(product,/REJECT AS UNDISCLOSED RANKING/);
   assert.match(product,/No real advertiser onboarding/);
-  assert.match(product,/not authorized for implementation/i);
+  assert.match(product,/None of these features are authorized for implementation/);
 });
 test("SEC-014 describes economics without fabricated revenue, budgets or legal clearance",()=>{
   for(const variable of ["Q","V","I","F","N","C_acq","C_review","C_fixed","C_var","R","Tax","B"]) assert.ok(economics.includes("| "+variable+" |"),variable);
