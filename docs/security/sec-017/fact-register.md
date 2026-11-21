@@ -1,11 +1,11 @@
 # SEC-017 — Operator fact completion register
 
-**FACT COMPLETION STATUS: PENDING OWNER INPUT.** None of these facts can be completed using repository metadata or speculation. Each row is a *requested fact*, not a data collection authorization. Reference IDs trace to the [SEC-016 operator intake](../sec-016/operator-intake.md).
+**FACT COMPLETION STATUS: PARTIAL OWNER-SUPPLIED PLANNING FACT RECORDED; INDEPENDENT VERIFICATION AND REMAINING OWNER INPUT PENDING.** None of these facts can be completed using repository metadata or speculation. Each row is a *requested fact*, not a data collection authorization. Reference IDs trace to the [SEC-016 operator intake](../sec-016/operator-intake.md).
 
 | ID | SEC-016 link | Fact needed from owner | Current verified value | Internal completion rule |
 | --- | --- | --- | --- | --- |
-| F17-01 | O16-01 | Prospective operator type, legal name, establishment country | **UNKNOWN** | Non-sensitive owner statement; legal evidence verified privately by authorized reviewer |
-| F17-02 | O16-02 | Commercial registration, actual activities/licences, if any | **UNKNOWN / NOT VERIFIED** | Mark `NONE DECLARED` if none, not `licensed`; counsel must verify |
+| F17-01 | O16-01 | Prospective operator type, legal name, establishment country | **OWNER-STATED: individual planning to establish a business in Oman; legal name and establishment/registration not confirmed** | Non-sensitive owner statement; legal evidence verified privately by authorized reviewer |
+| F17-02 | O16-02 | Commercial registration, actual activities/licences, if any | **OWNER-STATED: no registration confirmed; actual registration and licences UNKNOWN / NOT VERIFIED** | Mark `NONE DECLARED` if none, not `licensed`; counsel must verify |
 | F17-03 | O16-03 | Actual Oman presence, authorized business representative | **UNKNOWN** | Owner attests proposed presence and delegated roles; no inference from residence |
 | F17-04 | O16-04 | Preferred structure OR-1, OR-2, OR-3 or an explicit alternative | **UNSELECTED** | Owner explicitly selects **for evaluation only** |
 | F17-05 | O16-05 | Who owns publishing, creative rejection, disputes and content corrections | **UNASSIGNED** | Named accountable *roles*; actual appointments later |
@@ -16,6 +16,10 @@
 | F17-10 | O16-10 | Potential fields for representatives, ad rights, logs, complaints and reporting | **NO APPROVED LIVE PROCESSING** | Draft purpose/role/data inventory; Privacy sign-off required |
 | F17-11 | O16-11 | Locations of hosting, storage, backup, support and vendors | **NOT SELECTED** | No supplier/geography inference; counsel/Privacy input precedes selection |
 | F17-12 | O16-12 | Research scope owner, cost ceiling, expiry, stop authority, permitted contacts | **NO BUDGET; NO CONTACT AUTHORITY** | Separate explicit signed authorization for any external action |
+
+## Owner-statement provenance
+
+On **2026-11-22**, the owner explicitly instructed: “For SEC-017, the proposed operator is: an individual planning to establish a business in Oman, with no registration confirmed. Record this as an owner-supplied planning fact only, without authorizing legal engagement, spending or launch.” This establishes **intent only**. It does not assert that the individual is legally registered, currently resident in Oman, authorized to conduct business, or eligible to advertise. **Do not transform “no registration confirmed” into “registration definitively absent.”**
 
 ## Handling and provenance
 
