@@ -2,7 +2,7 @@
 
 ## Decision
 
-**LEGAL-REVIEW ENGAGEMENT: DEFER / NOT AUTHORIZED.** This is the current authorization state because no exact legal operator, external reviewer, contract, confidential handoff or budget has been supplied. It is **not** an independent ruling that counsel is unnecessary or that the proposed product is legal or illegal.
+**LEGAL-REVIEW ENGAGEMENT: DEFER / NOT AUTHORIZED.** This is the current authorization state because the owner has provided only an **individual planning to establish a business in Oman** as a planning direction, with **no registration confirmed**, and no verified operator identity, external reviewer, contract, confidential handoff or budget has been supplied. It is **not** an independent ruling that counsel is unnecessary or that the proposed product is legal or illegal.
 
 The user's instruction to initiate SEC-017 authorizes **this internal documentation milestone only**. A PR merge, a generic “next,” a code-test success, or approval of a research hypothesis does not appoint a lawyer or permit external activities.
 
@@ -12,7 +12,7 @@ The user's instruction to initiate SEC-017 authorizes **this internal documentat
 | --- | --- | --- |
 | R17-01 | Approve SEC-012 Muscat-first **internal study** scope | PENDING |
 | R17-02 | Select OR-1/2/3 or alternative operator structure **for research** | PENDING |
-| R17-03 | Provide actual legal operator/entity and registration facts | UNKNOWN |
+| R17-03 | Provide actual legal operator/entity and registration facts | **PARTIAL OWNER PLANNING DIRECTION: individual intending an Oman business; registration not confirmed, legal identity/licences unverified** |
 | R17-04 | Select CAT-01–06 subset **for counsel's analysis** | PENDING / NOT CLEARED |
 | R17-05 | Define intended audience, languages, countries, advertising activity and data flows | PENDING |
 | R17-06 | Name qualified independent Oman counsel/Privacy reviewer and permitted work | NONE APPOINTED |
