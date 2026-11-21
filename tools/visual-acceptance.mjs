@@ -14,14 +14,21 @@ if (!browser) {
 const views = [
   ["home-desktop", "/", 1440, 900],
   ["home-mobile", "/", 390, 844],
+  ["home-narrow-320", "/", 320, 760],
   ["muscat-directory-desktop", "/muscat", 1440, 900],
   ["muscat-directory-mobile", "/muscat", 390, 844],
+  ["muscat-directory-narrow-320", "/muscat", 320, 760],
+  ["muscat-zero-results", "/muscat?q=not-a-fixture-name&category=creative", 390, 844],
   ["muscat-search-filter", "/muscat?q=Design&category=creative", 1440, 900],
   ["muscat-sorted", "/muscat?sort=name-desc", 1440, 900],
   ["muscat-profile-desktop", "/muscat/listing/design-workshop", 1440, 900],
   ["muscat-profile-mobile", "/muscat/listing/design-workshop", 390, 844],
   ["dubai-directory", "/dubai", 1440, 900],
+  ["dubai-directory-mobile", "/dubai", 390, 844],
+  ["dubai-profile-mobile", "/dubai/listing/creative-studio", 390, 844],
   ["doha-directory", "/doha", 1440, 900],
+  ["doha-directory-mobile", "/doha", 390, 844],
+  ["doha-profile-mobile", "/doha/listing/modern-atelier", 390, 844],
 ];
 const captures = [];
 for (const [name, path, width, height] of views) {
@@ -51,10 +58,11 @@ for (const [name, path, width, height] of views) {
   captures.push({ name, path, viewport: { width, height }, file: name + ".png", bytes: bytes.length, sha256: createHash("sha256").update(bytes).digest("hex") });
 }
 const sha = spawnSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).stdout.trim();
-const manifest = { source_commit: sha, time_utc: new Date().toISOString(), browser, origin: "loopback only", captures, excluded: ["real people", "external screenshots", "production endpoints"], limitations: ["Browser screenshots show initial render only; interactive comparison and gallery clicks require manual acceptance verification.", "Visual appearance still requires human review."] };
+const manifest = { source_commit: sha, time_utc: new Date().toISOString(), browser, origin: "loopback only", captures, excluded: ["real people", "external screenshots", "production endpoints"], limitations: ["Browser screenshots show initial render only; interactive comparison and gallery clicks require separate interactive acceptance verification.", "Visual appearance, screen readers and approval still require human review.", "Screenshot capture does not imply production, accessibility certification or commercial eligibility."] };
 writeFileSync(join(out, "manifest.json"), JSON.stringify(manifest, null, 2));
 const esc = (s) => s.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
-const cards = captures.map((c) => `<figure><img loading="lazy" src="${esc(c.file)}" alt="${esc(c.name)} actual browser screenshot"><figcaption>${esc(c.name)} · ${c.viewport.width}×${c.viewport.height} · ${esc(c.path)}</figcaption></figure>`).join("\n");
-const page = `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Private visual acceptance — fictional directory</title><style>body{margin:0;background:#101114;color:#f1e8e8;font:16px system-ui}main{max-width:1200px;margin:auto;padding:24px}p{line-height:1.6;color:#ccbdc3}section{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,410px),1fr));gap:24px}figure{margin:0;background:#1d1b20;padding:12px;border:1px solid #58444e}img{max-width:100%;height:auto;display:block}figcaption{padding:12px 0;color:#e0b4af;font-size:13px}</style><main><h1>Three City Directory — Visual acceptance</h1><p>Real screenshots captured on an isolated GitHub Actions runner against a loopback-only Next.js production build. Fictional preview; not a live website. Commit: ${esc(sha)}</p><p><strong>Manual checks remaining:</strong> click both fictional gallery tabs, compare two profiles, keyboard focus, narrow-screen horizontal scrolling, visual polish and screen-reader narration. Screenshots alone do not prove these interactions.</p><section>${cards}</section></main></html>`;
+const reviewLinks = captures.map(c => `<a href="#${esc(c.name)}">${esc(c.name)}</a>`).join(" · ");
+const reviewCards = captures.map(c => `<figure id="${esc(c.name)}"><a href="${esc(c.file)}" target="_blank" rel="noopener noreferrer" title="Open screenshot full resolution"><img loading="lazy" src="${esc(c.file)}" alt="${esc(c.name)} actual local-browser screenshot"></a><figcaption><strong>${esc(c.name)}</strong><br>${c.viewport.width}×${c.viewport.height} · <code>${esc(c.path)}</code><br><a href="${esc(c.file)}" target="_blank" rel="noopener noreferrer">Open full-size image</a></figcaption></figure>`).join("\\n");
+const page = `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>UX-005 — private fictional directory review</title><style>body{margin:0;background:#101114;color:#f1e8e8;font:16px system-ui}main{max-width:1320px;margin:auto;padding:clamp(16px,3vw,36px)}p{line-height:1.6;color:#ccbdc3}a{color:#f1c9bf;text-underline-offset:3px}a:focus-visible{outline:3px solid #efc77e;outline-offset:4px}nav{line-height:2;margin:20px 0;padding:16px;background:#241f25;border-radius:8px}section{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,375px),1fr));gap:18px}figure{margin:0;background:#1d1b20;padding:12px;border:1px solid #58444e;scroll-margin-top:24px}img{width:100%;height:auto;display:block}figcaption{padding:12px 0;color:#e0b4af;font-size:13px;line-height:1.8}code{overflow-wrap:anywhere}ul{line-height:1.8}summary{cursor:pointer;font-weight:700}details{margin:24px 0;padding:20px;border:1px solid #65515b;border-radius:8px}footer{margin:36px 0;color:#b1a2a9}</style><main><h1>UX-005 · Full website review</h1><p>Actual Chromium screenshots of the <strong>fictional, unpublished</strong> directory, captured from a loopback-only Next.js build. Review source commit: <code>${esc(sha)}</code>. Screenshots are not a hosted preview. This gallery contains ${captures.length} independently captured views.</p><nav aria-label="Jump to screenshot"><strong>Jump to a view:</strong> ${reviewLinks}</nav><details open><summary>Human visual acceptance rubric — manual signoff required</summary><ul><li>City navigation and branding consistent across all three locations</li><li>Readable headings, descriptions, footers and fictional disclosure at 320px and 390px</li><li>Profile artwork, captions, spacing and mobile framing acceptable</li><li>Search, filters, zero-results recovery and sorting understandable</li><li>Contrast, keyboard focus, screen reader announcements, motion and zoom checked independently</li><li>No claims of verified people, real photos, age verification or live advertising</li></ul><p>For each finding, record screenshot name, viewport, observed defect, expected result and severity. PASS or FAIL is a <strong>reviewer decision</strong>, not a status inferred from screenshots.</p></details><section>${reviewCards}</section><footer>Demo only. No production hosting, contact, booking, payment or real people. Files may be opened locally with no server.</footer></main></html>`;
 writeFileSync(join(out, "index.html"), page);
 console.log(`Captured ${captures.length} screenshots from the actual local Next.js app at ${sha}`);
