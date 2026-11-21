@@ -29,7 +29,7 @@ export default function Home() {
             </Link>
           ))}
         </nav>
-        <section className="studio-panel"><span className="eyebrow">THE CONCEPT</span><h2>Thoughtful discovery.<br/><i>By design.</i></h2><p>Private, age-gated concept styling. Every profile is invented; no person, service or venue is being advertised.</p><span className="studio-watermark" aria-hidden="true">✳</span></section>
+        <section className="studio-panel"><span className="eyebrow">THE CONCEPT</span><h2>Thoughtful discovery.<br/><i>By design.</i></h2><p>18+ editorial concept styling only. No age verification is implemented. Every profile is invented; no person, service or venue is being advertised.</p><span className="studio-watermark" aria-hidden="true">✳</span></section>
       </main>
       <DirectoryFooter />
     </div>
