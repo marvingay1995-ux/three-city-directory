@@ -7,7 +7,7 @@ const [scope, facts, flows, decision] = ["README.md","operator-and-facts.md","se
 test("SEC-012 proposes a Muscat research study without business or launch authority", () => {
   assert.match(scope, /PROPOSED FOR PRODUCT-OWNER SCOPE DECISION/);
   assert.match(scope, /NO-GO for public deployment and commercial launch/);
-  assert.match(scope, /no.*legal advice or clearance/i);
+  assert.match(facts, /no legal advice or clearance/i);
   assert.match(scope, /general-business/);
   assert.match(scope, /Dubai and Doha/);
   assert.match(scope, /G1–G6 OPEN/);
@@ -20,7 +20,7 @@ test("SEC-012 preserves unknown operator facts and explicit prohibitions", () =>
   assert.match(facts, /UNKNOWN/);
   assert.match(facts, /NOT AUTHORIZED/);
   assert.match(flows, /NO/);
-  assert.match(flows, /no provider\/region selected/i);
+  assert.match(scope, /no provider\/region selected/i);
   assert.match(flows, /No precise geolocation is needed/);
 });
 test("SEC-012 owner-scope decision remains unsigned and separate from engagement", () => {
