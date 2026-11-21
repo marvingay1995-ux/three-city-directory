@@ -3,6 +3,9 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - 'app/**'
+      - 'components/**'
+      - 'lib/demo-editorial.ts'
       - 'tools/visual-acceptance.mjs'
       - 'tools/interactive-acceptance.mjs'
       - '.github/workflows/private-visual-acceptance.yml'

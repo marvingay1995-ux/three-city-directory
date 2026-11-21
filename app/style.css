@@ -673,3 +673,23 @@ footer small { display:block; margin-top:5px; font-size:10px; }
  .gallery-composition-disc {width:70%;}
 }
 @media(prefers-reduced-motion:reduce) {.demo-gallery-stage,.gallery-composition-disc,.gallery-composition-line {transition:none!important;animation:none!important;}}
+
+/* UX-006 — increase readability of mobile navigation, filters and review text.
+   Visual polish only: existing responsive grids and fictional routes are preserved. */
+@media (max-width:620px) {
+  .site-header { row-gap:12px; }
+  .brand { font-size:.75rem; letter-spacing:.09em; }
+  .brand-words em { font-size:.7rem; letter-spacing:.14em; }
+  .city-nav { justify-content:space-between; gap:4px; }
+  .city-nav a { flex:1; min-width:0; min-height:44px; padding-inline:6px; font-size:.79rem; letter-spacing:.025em; }
+  .category-nav { gap:8px; }
+  .category-nav a { min-height:44px; font-size:.82rem; padding-inline:12px; }
+  .sort-nav a { min-height:44px; font-size:.8rem; padding-inline:10px; }
+  .demo-gallery-note,.profile-editorial .editorial-disclaimer,.related-note,.empty-recovery .empty-disclaimer { font-size:.85rem; line-height:1.65; }
+  .gallery-navigation-caption { font-size:.73rem; line-height:1.55; }
+  .demo-gallery-thumb { font-size:.85rem; }
+  .demo-gallery-thumb small { font-size:.75rem; }
+  .listing-category { font-size:.78rem; }
+  .listing-label { font-size:.8rem; }
+  .listing-open { min-height:44px; align-items:center; font-size:.84rem; }
+}
