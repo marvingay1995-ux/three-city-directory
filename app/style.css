@@ -585,3 +585,12 @@ footer small { display:block; margin-top:5px; font-size:10px; }
 .profile-editorial .editorial-disclaimer {font-size:.76rem;color:#c7b9bd;}
 .listing .listing-editorial {color:#dfb7b0!important;font-family:Georgia,serif;font-size:1.12rem;font-style:italic;}
 @media(max-width:520px){.editorial-intro{padding:18px}.profile-editorial li{padding:8px 12px}}
+
+/* Fictional identity palettes for the two interactive gallery views */
+.demo-gallery-stage.editorial-plum {background:radial-gradient(circle at 58% 45%,#835a78,#38273a 45%,#16171d 82%);}
+.demo-gallery-stage.editorial-sand {background:radial-gradient(circle at 58% 45%,#a58c66,#4e4237 45%,#1b1c20 82%);}
+.demo-gallery-stage.editorial-olive {background:radial-gradient(circle at 58% 45%,#81886a,#354037 45%,#161c1d 82%);}
+.demo-gallery-stage.editorial-rose {background:radial-gradient(circle at 58% 45%,#a87587,#523543 45%,#19171d 82%);}
+.demo-gallery-stage.editorial-indigo {background:radial-gradient(circle at 58% 45%,#7577a4,#353450 45%,#191a24 82%);}
+.demo-gallery-stage.editorial-copper {background:radial-gradient(circle at 58% 45%,#ab7667,#5a3c39 45%,#21191f 82%);}
+.demo-gallery-stage.gallery-detail.editorial-plum,.demo-gallery-stage.gallery-detail.editorial-sand,.demo-gallery-stage.gallery-detail.editorial-olive,.demo-gallery-stage.gallery-detail.editorial-rose,.demo-gallery-stage.gallery-detail.editorial-indigo,.demo-gallery-stage.gallery-detail.editorial-copper {background-image:repeating-radial-gradient(circle at 45% 50%,transparent 0 36px,#ffffff0c 37px 38px),linear-gradient(120deg,#463c45,#24212b);}
