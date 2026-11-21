@@ -100,7 +100,7 @@ try {
   for (const width of [320, 375, 390, 768, 1024]) {
     const height = width < 400 ? 844 : 900;
     await call("Emulation.setDeviceMetricsOverride", { width, height, deviceScaleFactor: 1, mobile: width < 600 });
-    for (const path of ["/", "/muscat", "/muscat/listing/design-workshop"]) {
+    for (const path of ["/", "/dubai", "/muscat", "/doha", "/dubai/listing/creative-studio", "/muscat/listing/design-workshop", "/doha/listing/modern-atelier", "/muscat?q=not-a-fixture-name&category=creative"]) {
       await navigate(path);
       const state = await evaluate("({viewport:innerWidth,root:document.documentElement.scrollWidth,body:document.body.scrollWidth,notice:document.body.innerText.includes('All listings are fictional.'),focusable:[...document.querySelectorAll('a[href],button:not([disabled]),input:not([disabled])')].filter(el=>el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden').length})");
       assert.equal(state.notice, true, "Missing fictional notice: " + path + " @" + width);
@@ -113,6 +113,16 @@ try {
       record("Viewport " + width + " " + path, "No document overflow, fictional disclosure, keyboard controls present");
     }
   }
+  // Final UX-007 navigation and empty-state proof, after the viewport matrix.
+  await navigate("/muscat?q=not-a-fixture-name&category=creative&sort=name-desc");
+  const emptyState = await evaluate("({empty:!!document.querySelector('.empty-recovery'),results:document.querySelectorAll('.listing').length,links:[...document.querySelectorAll('.empty-actions a')].map(a=>({text:a.textContent.trim(),href:new URL(a.href).pathname+new URL(a.href).search})),alternatives:[...document.querySelectorAll('.empty-alternatives a')].map(a=>new URL(a.href).pathname)})");
+  assert.equal(emptyState.empty, true, "No results must show the recovery panel");
+  assert.equal(emptyState.results, 0, "No results must not show matching cards");
+  assert.ok(emptyState.links.some(item => item.text === "Clear search term" && item.href === "/muscat?category=creative&sort=name-desc"), JSON.stringify(emptyState.links));
+  assert.ok(emptyState.links.some(item => item.text === "Remove category filter" && item.href === "/muscat?q=not-a-fixture-name&sort=name-desc"), JSON.stringify(emptyState.links));
+  assert.ok(emptyState.links.some(item => item.href === "/muscat"), JSON.stringify(emptyState.links));
+  assert.ok(emptyState.alternatives.length > 0 && emptyState.alternatives.every(path => path.startsWith("/muscat/listing/")), "Empty suggestions must stay inside Muscat");
+  record("Zero-result recovery", "Clear-search, remove-category, reset and synthetic suggestions remain Muscat scoped");
   await call("Emulation.clearDeviceMetricsOverride");
   await navigate("/muscat/listing/design-workshop");
   // Use actual browser keyboard events; inspect computed focus style rather than just static CSS.
