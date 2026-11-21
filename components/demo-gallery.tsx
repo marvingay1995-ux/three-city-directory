@@ -7,13 +7,13 @@ const frames = [
   { key: "detail", label: "Detail image placeholder", symbol: "◈", caption: "Editorial concept / Detail" },
 ] as const;
 
-export function DemoGallery({ title }: { title: string }) {
+export function DemoGallery({ title, theme = "copper" }: { title: string; theme?: "copper" | "plum" | "sand" | "olive" | "rose" | "indigo" }) {
   const [active, setActive] = useState<(typeof frames)[number]["key"]>("overview");
   const chosen = frames.find((frame) => frame.key === active) ?? frames[0];
 
   return (
     <div className="demo-gallery">
-      <div className={`demo-gallery-stage gallery-${chosen.key}`} role="img" aria-label={`${title}: ${chosen.label}. This is decorative artwork, not a photograph.`}>
+      <div className={`demo-gallery-stage gallery-${chosen.key} editorial-${theme}`} role="img" aria-label={`${title}: ${chosen.label}. This is decorative artwork, not a photograph.`}>
         <span className="demo-gallery-symbol" aria-hidden="true">{chosen.symbol}</span>
         <span className="demo-gallery-stamp">FICTIONAL / CONCEPT ONLY</span>
         <div className="demo-gallery-caption"><span>01 / EDITORIAL VIEW</span><strong>{chosen.caption}</strong></div>

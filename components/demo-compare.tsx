@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { SponsoredExample } from "./directory-ui";
 import { getListingPath, type DemoListing } from "../lib/directory";
+import { getDemoEditorial } from "../lib/demo-editorial";
 
 const MAX_COMPARE = 2;
 
@@ -28,6 +29,7 @@ export function DemoCompare({ listings, city }: { listings: readonly DemoListing
             <p className="listing-category">{item.category} / {city}</p>
             <h3 className="listing-title"><Link href={getListingPath(item)}>{item.title}</Link></h3>
             <p>{item.description}</p>
+            {getDemoEditorial(item.id) && <p className="listing-editorial">{getDemoEditorial(item.id)?.tagline}</p>}
             <span className="listing-label">Fictional profile</span>
             {item.sponsoredExample && <SponsoredExample />}
             <button type="button" className="compare-toggle" aria-pressed={selected.includes(item.id)}
@@ -51,6 +53,7 @@ export function DemoCompare({ listings, city }: { listings: readonly DemoListing
         <tbody>
           <tr><th scope="row">City</th>{chosen.map(item => <td key={item.id}>{city}</td>)}</tr>
           <tr><th scope="row">Category</th>{chosen.map(item => <td key={item.id}>{item.category}</td>)}</tr>
+          <tr><th scope="row">Editorial theme</th>{chosen.map(item => <td key={item.id}>{getDemoEditorial(item.id)?.tagline ?? "No demo editorial text"}</td>)}</tr>
           <tr><th scope="row">Verification</th>{chosen.map(item => <td key={item.id}>Fictional demo — not verified</td>)}</tr>
           <tr><th scope="row">Sponsorship</th>{chosen.map(item => <td key={item.id}>{item.sponsoredExample ? "Example only" : "None"}</td>)}</tr>
         </tbody>

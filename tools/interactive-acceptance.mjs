@@ -68,7 +68,7 @@ try {
   assert.equal(await evaluate("!!document.querySelector('.compare-panel')"), true);
   await evaluate("document.querySelectorAll('.compare-toggle')[1].click()");
   await awaitUntil(async () => (await evaluate("document.querySelectorAll('.compare-table thead th').length")) === 3, "two-column comparison");
-  assert.equal(await evaluate("document.querySelectorAll('.compare-table tbody tr').length"), 4);
+  assert.equal(await evaluate("document.querySelectorAll('.compare-table tbody tr').length"), 5);
   record("Comparison", "Two selected fiction-only cards render side-by-side within Muscat");
   await evaluate("document.querySelector('.compare-clear').click()");
   await awaitUntil(async () => (await evaluate("document.querySelectorAll('.compare-toggle[aria-pressed=true]').length")) === 0, "comparison clear");
