@@ -1,6 +1,6 @@
 # UX-010 — Owner Visual Design Decision
 
-**Current decision: PENDING — no owner visual sign-off has been supplied.**
+**Current decision: APPROVE VISUAL DESIGN ONLY — explicit owner approval received 2026-11-21. This is not release authorization.**
 
 **Scope:** the private fictional three-city directory interface for Dubai, Muscat and Doha. This record is solely about **visual design**, not commercial launch, advertiser onboarding, legal clearance, privacy/security review, real people, payments, contact features, or public hosting.
 
@@ -10,7 +10,7 @@
 - PR #57's **Verify foundation** and **Private local visual acceptance** workflows both concluded **success**.
 - Updated preview evidence: [Visual workflow run 44914776628](https://github.com/marvingay1995-ux/three-city-directory/actions/runs/44914776628), private artifact **14711745073**, containing 17 viewport screenshots and seven full-page screenshots plus browser interaction checks. The artifact is retained temporarily (14 days), so preserve a separately authorized private copy if longer retention is required.
 - Prior UX-007/UX-008 verified cross-city, 320px–1024px, no-overflow, fictional disclosure, profile/gallery, empty search, sorting, comparison, keyboard focus and skip-link tests. **Automation is not human design approval**.
-- Human screenshot review previously identified undersized secondary home text; PR #57 addressed that issue. The updated artifact verifies screenshot creation and automated checks, but an owner comparison and approval of the final visual result is still pending.
+- Human screenshot review previously identified undersized secondary home text; PR #57 addressed that issue. The updated artifact verifies screenshot creation and automated checks, and the owner subsequently provided an explicit visual-design approval in the conversation on 2026-11-21. The owner's statement did not separately confirm item-by-item screenshot review.
 
 ## Owner review checklist
 
@@ -29,17 +29,17 @@ Review the **latest** artifact above, open `index.html` and `full-page-index.htm
 
 Accessibility-specific manual checks including assistive technology, contrast measurements, zoom/reflow and representative real devices remain unverified. Do **not** call this WCAG certified.
 
-## Owner decision block — intentionally unsigned
+## Owner decision block — explicit owner disposition
 
-- Reviewer / role: **NOT PROVIDED**
-- Review date: **NOT PROVIDED**
-- Evidence inspected: **NOT CONFIRMED**
-- Explicit decision: **PENDING**
+- Reviewer / role: **Product owner (explicit in-chat instruction; no legal identity asserted)**
+- Approval recorded: **2026-11-21**
+- Evidence inspected by owner: **NOT CONFIRMED** (the user's approval did not explicitly enumerate which screenshots were viewed)
+- Explicit decision: **APPROVE VISUAL DESIGN ONLY**
 - Decision options: `APPROVE VISUAL DESIGN ONLY` / `REQUEST REVISIONS` / `REJECT VISUAL DESIGN`
 - Blocker or follow-up issue references: **NOT PROVIDED**
 - Record of deviations accepted by owner: **NONE PROVIDED**
 
-**Decision rule:** do not automatically change `PENDING` on PR merge, a passing workflow, a generic `done`, `next`, or without explicit owner disposition tied to the version and evidence reviewed. Approval, if supplied, applies to visual design **only** and can be invalidated by future substantial UI changes.
+**Decision provenance:** the product owner explicitly stated in conversation: “I approve the visual design only for UX-010. Record my decision in PR #58. This does not authorize public deployment or commercial launch.” PR #58 was already merged when this instruction was processed, so the approval is recorded in a separate follow-up PR against `main` instead of retroactively modifying PR #58. This disposition is limited to the UX-010 visual design baseline and can be superseded by substantial future UI changes. Manual checklist entries marked NOT REVIEWED remain not independently verified.
 
 ## Separate release decision — unchanged
 
@@ -47,4 +47,4 @@ Accessibility-specific manual checks including assistive technology, contrast me
 
 ## Scope of this PR
 
-Documentation-only. No functional source, visual styles, dependency, infrastructure, data, runtime or permissions changes. The owner may merge the **record**, not an assumed approval.
+Documentation-only. No functional source, visual styles, dependency, infrastructure, data, runtime or permissions changes. This original sign-off record was merged in PR #58 at commit `76f560b1c16f579246f1282dff26f93023a33037` before the owner supplied an explicit approval. The follow-up PR changes this document and its acceptance test only; merging it archives the owner's actual visual approval, not permission to release.
