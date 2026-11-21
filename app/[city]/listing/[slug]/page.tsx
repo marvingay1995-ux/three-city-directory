@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DemoNotice, DirectoryFooter, DirectoryHeader, SponsoredExample } from "../../../../components/directory-ui";
 import { DemoGallery } from "../../../../components/demo-gallery";
+import { getDemoEditorial } from "../../../../lib/demo-editorial";
 import { demoListings, getCity, getListing, normalizeCategory } from "../../../../lib/directory";
 
 type ProfileProps = { params: Promise<{ city: string; slug: string }> };
@@ -26,6 +27,7 @@ export default async function ProfilePage({ params }: ProfileProps) {
   const { city, listing } = await resolveProfile(params);
   const directory = `/${city.slug}`;
   const category = normalizeCategory(listing.category);
+  const editorial = getDemoEditorial(listing.id);
   return <div className="shell">
     <DirectoryHeader city={city.slug} />
     <main id="main-content" className="profile" tabIndex={-1}>
@@ -41,6 +43,7 @@ export default async function ProfilePage({ params }: ProfileProps) {
         <h1 id="profile-title"><bdi>{listing.title}</bdi><span className="punctuation">.</span></h1>
         <p>{listing.category} in <bdi>{city.name}</bdi>, {city.country}.</p>
         <p>{listing.description}</p>
+        {editorial && <div className={`editorial-intro editorial-${editorial.theme}`}><strong>{editorial.tagline}</strong><p>{editorial.summary}</p></div>}
         <div className="profile-badges"><span className="listing-label">Fictional profile</span>{listing.sponsoredExample && <SponsoredExample />}</div>
       </section>
       <section className="profile-gallery" aria-labelledby="gallery-title">
@@ -52,6 +55,7 @@ export default async function ProfilePage({ params }: ProfileProps) {
         <a href="#report-title">Safety and reporting</a>
         <Link href={directory}>Explore more in {city.name}</Link>
       </nav>
+      {editorial && <section className="profile-editorial" aria-labelledby="editorial-heading"><span className="eyebrow">CONCEPT PROFILE / FICTIONAL</span><h2 id="editorial-heading">Inside the concept</h2><p>{editorial.summary}</p><ul>{editorial.highlights.map((text) => <li key={text}>{text}</li>)}</ul><p className="editorial-disclaimer">These interests are invented editorial themes, not offered services or verified business attributes.</p></section>}
       <section className="profile-details" aria-labelledby="details-title">
         <span className="eyebrow">02 / INFORMATION</span><h2 id="details-title">Profile details</h2>
         <dl>
