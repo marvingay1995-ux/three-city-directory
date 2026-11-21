@@ -28,5 +28,5 @@ test("SEC-016 cannot authorize spend, external contact, or a country release",()
   assert.match(decision,/SPENDING NOT AUTHORIZED/);
   assert.match(decision,/Permission to contact counsel, regulators, businesses or providers \| \*\*NONE\*\*/);
   assert.match(decision,/D-001 NO-GO — MUSCAT, DUBAI AND DOHA/);
-  assert.match(index,/Merging this packet is not authorization/);
+  assert.match(index,/merging this packet is not authorization/i);
 });
