@@ -601,3 +601,24 @@ footer small { display:block; margin-top:5px; font-size:10px; }
   .home-hero > .hero-inner, .home-hero > .hero-art { min-width:0; }
   .home-hero > .hero-art { width:100%; max-width:100%; }
 }
+
+/* PROFILE-003 — same-city fictional discovery (no rankings or paid placement) */
+.profile-related {margin:40px 0 28px;padding-block:30px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.related-heading {display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:12px 24px;margin-bottom:22px;}
+.related-heading h2 {font-size:clamp(1.5rem,3vw,2.35rem);letter-spacing:-.035em;margin-top:10px;}
+.related-heading > a {font-size:.82rem;color:var(--accent);text-underline-offset:4px;min-height:44px;display:inline-flex;align-items:center;}
+.related-list {list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px;}
+.related-card {height:100%;display:grid;grid-template-columns:72px minmax(0,1fr) auto;align-items:center;gap:14px;background:#19191e;border:1px solid #54424c;border-radius:10px;padding:18px;}
+.related-art {width:70px;height:86px;display:grid;place-items:center;border-radius:6px;background:radial-gradient(circle,#8b666a,#36252c 75%);color:#f2c4b2;font-size:36px;}
+.related-olive .related-art {background:radial-gradient(circle,#797d5c,#30382e 75%);}
+.related-sand .related-art {background:radial-gradient(circle,#a18a68,#41372d 75%);}
+.related-plum .related-art {background:radial-gradient(circle,#946e93,#3b293e 75%);}
+.related-rose .related-art {background:radial-gradient(circle,#a27785,#3b2937 75%);}
+.related-indigo .related-art {background:radial-gradient(circle,#8088ab,#303447 75%);}
+.related-type {font-size:.69rem;letter-spacing:.06em;color:#d1a6ab;}
+.related-card h3 {font-size:1.12rem;margin:7px 0;}
+.related-card h3 a {text-underline-offset:4px;}
+.related-tagline {font:italic .87rem Georgia,serif;color:#ded0d4;}
+.related-arrow {color:var(--accent);font-size:1.35rem;text-decoration:none;display:grid;place-items:center;min-width:34px;min-height:44px;}
+.related-note {margin-top:17px;color:var(--muted);font-size:.79rem;line-height:1.5;}
+@media(max-width:450px){.related-card{grid-template-columns:58px minmax(0,1fr) auto;gap:10px;padding:14px;}.related-art{width:58px;height:76px;}.related-arrow{min-width:26px;}}

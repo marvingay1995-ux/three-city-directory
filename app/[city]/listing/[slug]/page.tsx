@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { DemoNotice, DirectoryFooter, DirectoryHeader, SponsoredExample } from "../../../../components/directory-ui";
 import { DemoGallery } from "../../../../components/demo-gallery";
 import { getDemoEditorial } from "../../../../lib/demo-editorial";
-import { demoListings, getCity, getListing, normalizeCategory } from "../../../../lib/directory";
+import { demoListings, getCity, getListing, getListings, getListingPath, normalizeCategory } from "../../../../lib/directory";
 
 type ProfileProps = { params: Promise<{ city: string; slug: string }> };
 export function generateStaticParams() { return demoListings.map(({ city, slug }) => ({ city, slug })); }
@@ -28,6 +28,7 @@ export default async function ProfilePage({ params }: ProfileProps) {
   const directory = `/${city.slug}`;
   const category = normalizeCategory(listing.category);
   const editorial = getDemoEditorial(listing.id);
+  const related = getListings(city.slug).filter(item => item.id !== listing.id).slice(0, 3);
   return <div className="shell">
     <DirectoryHeader city={city.slug} />
     <main id="main-content" className="profile" tabIndex={-1}>
@@ -64,6 +65,20 @@ export default async function ProfilePage({ params }: ProfileProps) {
           <div><dt>Verification</dt><dd>Demo fixture. No business verification was performed.</dd></div>
         </dl>
       </section>
+      {related.length > 0 && <section className="profile-related" aria-labelledby="related-title">
+        <div className="related-heading"><div><span className="eyebrow">03 / KEEP EXPLORING</span><h2 id="related-title">More fictional profiles in {city.name}</h2></div><Link href={directory}>All {city.name} listings <span aria-hidden="true">↗</span></Link></div>
+        <ul className="related-list">
+          {related.map(item => {
+            const details = getDemoEditorial(item.id);
+            return <li key={item.id}><article className={`related-card related-${details?.theme ?? "copper"}`}>
+              <span className="related-art" aria-hidden="true">{item.category === "Creative" ? "✳" : "◈"}</span>
+              <div><p className="related-type">{item.category} / Fictional demo</p><h3><Link href={getListingPath(item)}>{item.title}</Link></h3>{details && <p className="related-tagline">{details.tagline}</p>}</div>
+              <Link href={getListingPath(item)} aria-label={`Explore fictional profile ${item.title}`} className="related-arrow">↗</Link>
+            </article></li>;
+          })}
+        </ul>
+        <p className="related-note">These are invented editorial examples, not recommendations of real people or businesses.</p>
+      </section>}
       <aside className="profile-report" aria-labelledby="report-title">
         <span className="eyebrow">SAFETY & TRANSPARENCY</span><h2 id="report-title">Reporting prototype</h2>
         <p>Reporting is unavailable in this demo. Reports cannot be submitted or stored.</p>
