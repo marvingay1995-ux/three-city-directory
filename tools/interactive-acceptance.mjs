@@ -86,15 +86,34 @@ try {
   await evaluate("document.querySelectorAll('.demo-gallery-thumb')[0].click()");
   await awaitUntil(async () => (await evaluate("document.querySelector('.demo-gallery-stage')?.classList.contains('gallery-overview')")) === true, "gallery reset");
   record("Gallery interaction", "Detail and Overview buttons switch visible React state");
-  await call("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
-  for (const path of ["/", "/muscat", "/muscat/listing/design-workshop"]) {
-    await navigate(path);
-    const state = await evaluate("({viewport:innerWidth,width:document.documentElement.scrollWidth,notice:document.body.innerText.includes('All listings are fictional.')})");
-    assert.equal(state.notice, true, "Missing fictional notice: " + path);
-    assert.ok(state.width <= state.viewport + 2, "Mobile horizontal page overflow at " + path + ": " + JSON.stringify(state));
-    record("Mobile " + path, "390px viewport, no document overflow, fictional notice visible");
+  // Accessibility acceptance matrix — genuine viewport emulation and keyboard events.
+  for (const width of [320, 375, 390, 768, 1024]) {
+    const height = width < 400 ? 844 : 900;
+    await call("Emulation.setDeviceMetricsOverride", { width, height, deviceScaleFactor: 1, mobile: width < 600 });
+    for (const path of ["/", "/muscat", "/muscat/listing/design-workshop"]) {
+      await navigate(path);
+      const state = await evaluate("({viewport:innerWidth,root:document.documentElement.scrollWidth,body:document.body.scrollWidth,notice:document.body.innerText.includes('All listings are fictional.'),focusable:[...document.querySelectorAll('a[href],button:not([disabled]),input:not([disabled])')].filter(el=>el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden').length})");
+      assert.equal(state.notice, true, "Missing fictional notice: " + path + " @" + width);
+      assert.ok(state.root <= state.viewport + 2 && state.body <= state.viewport + 2, "Horizontal overflow @" + width + " " + path + ": " + JSON.stringify(state));
+      assert.ok(state.focusable >= 3, "Too few visible keyboard controls: " + path);
+      record("Viewport " + width + " " + path, "No document overflow, fictional disclosure, keyboard controls present");
+    }
   }
   await call("Emulation.clearDeviceMetricsOverride");
+  await navigate("/muscat/listing/design-workshop");
+  // Use actual browser keyboard events; inspect computed focus style rather than just static CSS.
+  await evaluate("document.activeElement instanceof HTMLElement && document.activeElement.blur()");
+  await call("Input.dispatchKeyEvent", { type: "rawKeyDown", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9 });
+  await call("Input.dispatchKeyEvent", { type: "keyUp", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9 });
+  const tab = await evaluate("({tag:document.activeElement?.tagName,label:document.activeElement?.textContent?.trim().slice(0,60),outline:getComputedStyle(document.activeElement).outlineStyle,focusVisible:document.activeElement?.matches(':focus-visible')})");
+  assert.equal(tab.tag, "A", "First keyboard Tab must reach the accessibility skip link: " + JSON.stringify(tab));
+  assert.ok(tab.focusVisible, "Keyboard focus-visible selector must match: " + JSON.stringify(tab));
+  assert.notEqual(tab.outline, "none", "Keyboard focus must have visible outline: " + JSON.stringify(tab));
+  record("Keyboard focus", "Real Tab focuses skip link and yields visible focus outline");
+  await call("Input.dispatchKeyEvent", { type: "rawKeyDown", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13 });
+  await call("Input.dispatchKeyEvent", { type: "keyUp", key: "Enter", code: "Enter", windowsVirtualKeyCode: 13 });
+  await awaitUntil(async () => (await evaluate("location.hash")) === "#main-content", "skip link activation");
+  record("Skip link", "Keyboard Enter follows the skip-to-main navigation");
   record("Browser runtime", "Actual headless Chrome, local Next.js via CDP (no simulated interactions)");
   writeFileSync(join(output, "interactive-checks.json"), JSON.stringify({ source: "real Chrome CDP", time_utc: new Date().toISOString(), checks }, null, 2));
 } finally {
