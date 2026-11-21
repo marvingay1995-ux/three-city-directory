@@ -94,6 +94,10 @@ try {
       await navigate(path);
       const state = await evaluate("({viewport:innerWidth,root:document.documentElement.scrollWidth,body:document.body.scrollWidth,notice:document.body.innerText.includes('All listings are fictional.'),focusable:[...document.querySelectorAll('a[href],button:not([disabled]),input:not([disabled])')].filter(el=>el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden').length})");
       assert.equal(state.notice, true, "Missing fictional notice: " + path + " @" + width);
+      if (state.root > state.viewport + 2 || state.body > state.viewport + 2) {
+        const offenders = await evaluate("JSON.stringify([...document.querySelectorAll('body *')].map(el=>({tag:el.tagName,cls:typeof el.className==='string'?el.className:'',right:Math.round(el.getBoundingClientRect().right),left:Math.round(el.getBoundingClientRect().left),width:Math.round(el.getBoundingClientRect().width)})).filter(el=>el.right>innerWidth+2||el.left< -2).sort((a,b)=>b.right-a.right).slice(0,12))");
+        console.error("Overflow diagnostics @" + width + " " + path + ": " + offenders);
+      }
       assert.ok(state.root <= state.viewport + 2 && state.body <= state.viewport + 2, "Horizontal overflow @" + width + " " + path + ": " + JSON.stringify(state));
       assert.ok(state.focusable >= 3, "Too few visible keyboard controls: " + path);
       record("Viewport " + width + " " + path, "No document overflow, fictional disclosure, keyboard controls present");
