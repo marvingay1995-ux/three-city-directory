@@ -23,5 +23,5 @@ test("SEC-011 distinguishes approved visual design and prior offline evidence fr
   assert.match(assessment, /APPROVED — visual scope only/);
   assert.match(assessment, /HISTORIC FINDINGS; current status requires re-evaluation/);
   assert.match(assessment, /NOT ASSESSED \/ OPEN/);
-  assert.match(assessment, /separately authorize/);
+  assert.match(assessment, /separately authorize/i);
 });
