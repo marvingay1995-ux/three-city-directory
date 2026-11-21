@@ -1,4 +1,5 @@
 import { DemoCompare } from "../../components/demo-compare";
+import { EmptyResults } from "../../components/empty-results";
 import { DirectorySearch } from "../../components/directory-search";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -30,6 +31,7 @@ export default async function CityPage({ params, searchParams }: CityPageProps) 
   const sort = normalizeListingSort(input.sort);
   const path = `/${city.slug}`;
   const listings = getListings(city.slug, query, category, sort);
+  const alternatives = listings.length ? [] : getListings(city.slug);
   return (
     <div className="shell">
       <DirectoryHeader city={city.slug} />
@@ -55,7 +57,7 @@ export default async function CityPage({ params, searchParams }: CityPageProps) 
             <Link href={sortHref(path, query, category, "name-asc")} aria-current={sort === "name-asc" ? "true" : undefined} scroll={false}>Name A–Z</Link>
             <Link href={sortHref(path, query, category, "name-desc")} aria-current={sort === "name-desc" ? "true" : undefined} scroll={false}>Name Z–A</Link>
           </nav>
-          {listings.length ? <DemoCompare listings={listings} city={city.name} /> : <div className="empty-state"><h3>No matching demo listings</h3><p>Try a different search term or choose another category.</p></div>}
+          {listings.length ? <DemoCompare listings={listings} city={city.name} /> : <EmptyResults city={city.slug} cityName={city.name} query={query} category={category} sort={sort} alternatives={alternatives} />}
         </section>
       </main>
       <DirectoryFooter />
