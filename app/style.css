@@ -693,3 +693,24 @@ footer small { display:block; margin-top:5px; font-size:10px; }
   .listing-label { font-size:.8rem; }
   .listing-open { min-height:44px; align-items:center; font-size:.84rem; }
 }
+
+/* UX-009 — correct mobile homepage secondary text confirmed undersized in full-page screenshots. */
+@media (max-width:620px) {
+  .home-hero .hero-detail {
+    font-size:.92rem !important;
+    line-height:1.65;
+    max-width:58ch;
+    opacity:1;
+  }
+  .home-hero > .hero-inner > p:not(.demo-notice) {
+    line-height:1.55;
+  }
+  .studio-panel p {
+    font-size:.92rem;
+    line-height:1.7;
+  }
+  .studio-panel h2 {
+    line-height:1.08;
+    overflow-wrap:normal;
+  }
+}
