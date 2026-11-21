@@ -20,7 +20,8 @@ test("comparison is integrated only with current city-scoped directory results",
   const page = read("app/[city]/page.tsx");
   assert.match(page, /getListings\(city\.slug, query, category, sort\)/);
   assert.match(page, /<DemoCompare listings=\{listings\} city=\{city\.name\}/);
-  assert.match(page, /No matching demo listings/);
+  assert.match(page, /<EmptyResults city=\{city\.slug\} cityName=\{city\.name\}/);
+  assert.match(read("components/empty-results.tsx"), /No matching demo listings/);
   const component = read("components/demo-compare.tsx");
   assert.match(component, /getListingPath\(item\)/);
   assert.match(component, /SponsoredExample/);
