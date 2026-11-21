@@ -2,7 +2,7 @@ import Link from "next/link";
 import { cities, type CitySlug } from "../lib/directory";
 
 export function DemoNotice() {
-  return <p className="demo-notice"><strong>18+ · Private concept preview</strong><span>All listings are fictional. No contact or transactions.</span></p>;
+  return <p className="demo-notice"><strong>18+ visual concept · Demo only</strong><span>All listings are fictional. No age verification, contact or transactions.</span></p>;
 }
 
 export function DirectoryHeader({ city }: { city?: CitySlug }) {
