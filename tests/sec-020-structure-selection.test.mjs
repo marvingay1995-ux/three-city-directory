@@ -19,7 +19,7 @@ test("SEC-020 preserves owner eligibility unknown and compares all valid researc
 test("SEC-020 preserves no-spend, no-registration and release NO-GO",()=>{
   assert.match(decision,/NOT AUTHORIZED/);
   assert.match(decision,/G1–G6 OPEN; G2 NOT CLEARED/);
-  assert.match(decision,/D-001 NO-GO for Muscat, Dubai and Doha/);
+  assert.match(overview,/D-001 NO-GO — Muscat, Dubai and Doha/);
   assert.match(overview,/D7-08 and D7-12 BLOCKED/);
   assert.match(decision,/Merging this PR is not an owner route selection/);
 });
