@@ -48,7 +48,7 @@ export default async function ProfilePage({ params }: ProfileProps) {
       </section>
       <section className="profile-gallery" aria-labelledby="gallery-title">
         <div className="section-heading compact"><div><span className="eyebrow">01 / GALLERY</span><h2 id="gallery-title">A closer look<span className="punctuation">.</span></h2></div><span className="results-small">CONCEPT IMAGERY ONLY</span></div>
-        <DemoGallery title={listing.title} />
+        <DemoGallery title={listing.title} theme={editorial?.theme} />
       </section>
       <nav className="profile-shortcuts" aria-label="Profile sections">
         <a href="#details-title">Profile details</a>
