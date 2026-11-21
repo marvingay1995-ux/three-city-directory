@@ -1,6 +1,6 @@
 # SEC-017 — Operator and advertising research choices
 
-**OWNER SELECTION STATUS: PENDING.** SEC-014's preference for sponsored advertising chooses the **model to evaluate**, not the operator, exact categories, commercial method or legal structure.
+**OWNER SELECTION STATUS: INDIVIDUAL PLANNING TO ESTABLISH BUSINESS IN OMAN RECORDED; OR-1/OR-2/OR-3 NOT SELECTED.** SEC-014's preference for sponsored advertising chooses the **model to evaluate**, not the operator, exact categories, commercial method or legal structure.
 
 ## Candidate operator structures (choose at most one as working hypothesis)
 
@@ -10,7 +10,7 @@
 | OR-2 | Separate directory publisher and advertising sales agency | **NO** | Separate contracting entities, editorial vs seller obligations, contracts, permissions, processor/controller roles |
 | OR-3 | Foreign publisher or operator with Oman-targeted activities | **NO** | Foreign/local jurisdiction, permissible business activity, representative, transfers and access restrictions |
 
-An alternative may be proposed only with a new owner description, not by equating a personal freelance/immigration status with a corporate licence. None is approved to operate.
+The owner's planning description does **not** establish OR-1: a future individual intending an Oman business has not confirmed incorporation, registration, rights to sell advertising or a sole publisher structure. An alternative may be proposed only with a new owner description, not by equating a personal freelance/immigration status with a corporate licence. None is approved to operate.
 
 ## Candidate categories (exactly SEC-015 study scope, not market permission)
 
