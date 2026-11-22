@@ -5,7 +5,7 @@ import { readFileSync } from "node:fs";
 const css = readFileSync(new URL("../app/style.css", import.meta.url), "utf8");
 
 test("mobile navigation labels and interactive targets receive legible styles", () => {
-  const section = css.slice(css.indexOf("/* UX-006 — increase readability"));
+  const section = css.slice(css.indexOf("/* UX-006 — increase readability"), css.indexOf("/* UX-009 — correct mobile homepage"));
   assert.ok(section.startsWith("/* UX-006"));
   assert.match(section, /@media \(max-width:620px\)/);
   for (const selector of [".city-nav a", ".category-nav a", ".sort-nav a"]) {
@@ -18,6 +18,6 @@ test("mobile navigation labels and interactive targets receive legible styles", 
 });
 
 test("new typography rules do not hide fictional notices or overflow the page intentionally", () => {
-  const section = css.slice(css.indexOf("/* UX-006 — increase readability"));
+  const section = css.slice(css.indexOf("/* UX-006 — increase readability"), css.indexOf("/* UX-009 — correct mobile homepage"));
   assert.doesNotMatch(section, /display:\s*none|visibility:\s*hidden|overflow:\s*hidden|position:\s*absolute/);
 });
