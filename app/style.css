@@ -917,3 +917,32 @@ h1, h2, h3, p, .listing-title, .brand-words { overflow-wrap: anywhere; }
 .profile-editor-preview-copy h2 { font-size: 1.7rem; }
 .profile-editor-preview-copy > span { font-size: .85rem; color: var(--accent); }
 @media (max-width: 500px) { .profile-editor-fields { grid-template-columns: 1fr; } }
+
+
+/* UI-008 — publicly viewable fictional operator dashboard; no access control. */
+.admin-demo { margin-block: clamp(24px,5vw,64px); }
+.admin-demo h1 { font-size: clamp(2.1rem,6vw,4.5rem); }
+.admin-stats { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; margin-block: 22px; }
+.admin-stats div { display: grid; gap: 6px; padding: 18px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
+.admin-stats strong { font-size: clamp(1.6rem,4vw,2.4rem); color: var(--accent); }
+.admin-stats span { font-size: .85rem; color: var(--muted); }
+.admin-layout { display: grid; grid-template-columns: minmax(220px, .8fr) minmax(0,1.2fr); gap: 16px; }
+.admin-queue, .admin-review, .admin-history { min-width: 0; padding: clamp(16px,3vw,26px); border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
+.admin-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.admin-heading h2, .admin-review h2, .admin-history h2 { font-size: 1.3rem; }
+.admin-heading button { background: #343844; color: #f4f2ec; }
+.admin-filter, .admin-review label { display: grid; gap: 8px; margin-block: 16px; }
+.admin-filter select, .admin-review textarea { width: 100%; min-height: 44px; padding: 10px; border: 1px solid #858997; border-radius: 8px; background: #12151a; color: #fff; font: inherit; }
+.admin-items { display: grid; gap: 8px; }
+.admin-item { display: grid; gap: 5px; text-align: left; background: #252831; color: #f4f2ec; border: 1px solid transparent; }
+.admin-item[aria-pressed="true"] { border-color: var(--accent); }
+.admin-item span:last-child { color: var(--muted); }
+.admin-review h3 { font-size: 1.5rem; margin-block: 12px; }
+.admin-review p, .admin-history p { margin-block: 12px; color: var(--muted); line-height: 1.55; }
+.admin-decisions { display: flex; flex-wrap: wrap; gap: 10px; }
+.admin-decisions button:disabled { opacity: .45; cursor: not-allowed; }
+.admin-hint { font-size: .86rem; }
+.admin-history { margin-top: 16px; }
+.admin-history ul { padding-left: 20px; overflow-wrap: anywhere; }
+@media (max-width: 700px) { .admin-layout { grid-template-columns: 1fr; } }
+@media (max-width: 400px) { .admin-stats { gap: 6px; } .admin-stats div { padding: 10px; } .admin-stats span { font-size: .72rem; } }
