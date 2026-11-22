@@ -758,3 +758,79 @@ h1, h2, h3, p, .listing-title, .brand-words { overflow-wrap: anywhere; }
   .compare-toggle { order: 2; margin-top: 8px; min-block-size: 44px; }
   .listing-content > .listing-label { margin-top: 4px; }
 }
+
+
+/* UI-003 — screenshot-guided compact portrait directory (fictional profiles only).
+   At phone widths, show TWO portrait tiles per row, never horizontally scroll the listing grid. */
+@media (max-width: 650px) {
+  .results .listing-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0;
+  }
+  .listing-grid > li { min-width: 0; }
+  .listing-grid .listing {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    height: 100%;
+    border-radius: 8px;
+    border: 1px solid #95715d;
+    overflow: hidden;
+    background: #1c191c;
+  }
+  .listing-grid .listing-visual {
+    display: grid;
+    width: 100%;
+    min-height: 0;
+    aspect-ratio: 3 / 4;
+    place-items: center;
+    background: radial-gradient(ellipse at 52% 38%, #a47774, #573e51 52%, #211d2a);
+  }
+  .listing-grid .listing-visual.visual-lifestyle {
+    background: radial-gradient(ellipse at 52% 38%, #ac8971, #62505b 52%, #25212b);
+  }
+  .listing-grid .visual-symbol {
+    position: static;
+    transform: none;
+    font-size: clamp(3.5rem, 13vw, 5rem);
+    line-height: 1;
+    opacity: .8;
+    color: #f0c9b2;
+  }
+  .listing-grid .visual-number { top: 10px; right: 10px; font-size: .65rem; }
+  .listing-grid .listing-content { padding: 12px; gap: 6px; }
+  .listing-grid .listing-category { font-size: .63rem; line-height: 1.3; letter-spacing: .06em; }
+  .listing-grid .listing-title { font-size: clamp(.95rem, 3.8vw, 1.2rem) !important; line-height: 1.2; }
+  .listing-grid .listing-title a { min-height: 36px; }
+  .listing-grid .listing-content > p:not(.listing-category),
+  .listing-grid .listing-editorial,
+  .listing-grid .listing-label { display: none; }
+  .listing-grid .sponsored-example { font-size: .64rem; padding: 3px 5px; }
+  .listing-grid .listing-open {
+    order: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    min-height: 44px;
+    margin-top: 4px;
+    padding: 9px;
+    font-size: .72rem;
+    letter-spacing: 0;
+  }
+  .listing-grid .compare-toggle {
+    order: 2;
+    width: 100%;
+    min-height: 44px;
+    margin-top: 2px;
+    padding: 7px 4px;
+    font-size: .68rem;
+    line-height: 1.3;
+  }
+}
+@media (max-width: 360px) {
+  .results .listing-grid { gap: 8px; }
+  .listing-grid .listing-content { padding: 9px; }
+}
