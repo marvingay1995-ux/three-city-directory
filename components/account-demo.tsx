@@ -17,7 +17,7 @@ export default function AccountDemo() {
       <button type="button" aria-pressed={mode === "register"} onClick={() => change("register")}>Register</button>
       <button type="button" aria-pressed={mode === "login"} onClick={() => change("login")}>Sign in</button>
     </div>
-    {submitted ? <div className="account-success" role="status"><h2>Prototype interaction complete</h2><p>This is a design demonstration. No account or session exists.</p><button type="button" onClick={() => setSubmitted(false)}>Return to form</button></div> :
+    {submitted ? <div className="account-success" role="status"><h2>Prototype interaction complete</h2><p>This is a design demonstration. No account or session exists.</p><Link href="/dashboard" className="account-header-link">Explore dashboard preview →</Link><button type="button" onClick={() => setSubmitted(false)}>Return to form</button></div> :
     <form className="account-form" onSubmit={e => { e.preventDefault(); setSubmitted(true); }}>
       {mode === "register" && <fieldset><legend>Choose a demonstration role</legend><label><input type="radio" name="role" checked={role === "visitor"} onChange={() => setRole("visitor")}/> Visitor</label><label><input type="radio" name="role" checked={role === "advertiser"} onChange={() => setRole("advertiser")}/> Advertiser (preview only)</label></fieldset>}
       {mode === "register" && <label>Display name<input required maxLength={60} autoComplete="off" placeholder="Example User" /></label>}
