@@ -896,3 +896,24 @@ h1, h2, h3, p, .listing-title, .brand-words { overflow-wrap: anywhere; }
   .dashboard-menu { flex-direction: row; flex-wrap: wrap; }
   .dashboard-menu button { flex: 1 1 120px; text-align: center; padding-inline: 8px; }
 }
+
+
+/* UI-007 — fictional profile editor and preview */
+.profile-editor { max-width: 820px; margin: clamp(24px,5vw,60px) auto; }
+.profile-editor h1 { font-size: clamp(2rem,6vw,3.8rem); margin-block: 12px 22px; }
+.profile-editor-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0; }
+.profile-editor-actions button[aria-pressed="false"] { background: transparent; border: 1px solid var(--border); color: #f4f2ec; }
+.profile-editor-form { display: grid; gap: 18px; padding: clamp(18px,4vw,30px); background: var(--surface); border: 1px solid var(--border); border-radius: 14px; }
+.profile-editor-form label { display: grid; gap: 8px; min-width: 0; }
+.profile-editor-fields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+.profile-editor-form input, .profile-editor-form select, .profile-editor-form textarea { width: 100%; min-height: 48px; padding: 12px; background: #12151a; color: #fff; border: 1px solid #858997; border-radius: 8px; font: inherit; }
+.profile-editor-form textarea { resize: vertical; }
+.profile-editor-help { color: var(--muted); font-size: .9rem; }
+.profile-editor-reviewed { padding: 12px; border: 1px solid #8c9c81; border-radius: 8px; }
+.profile-editor-preview { max-width: 390px; overflow: hidden; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
+.profile-editor-art { display: grid; place-items: center; aspect-ratio: 3 / 4; background: radial-gradient(circle at 40% 35%,#a98282,#302d3e 70%); }
+.profile-editor-art span { font-size: 6rem; color: #e6c6a8; }
+.profile-editor-preview-copy { padding: 20px; display: grid; gap: 8px; overflow-wrap: anywhere; }
+.profile-editor-preview-copy h2 { font-size: 1.7rem; }
+.profile-editor-preview-copy > span { font-size: .85rem; color: var(--accent); }
+@media (max-width: 500px) { .profile-editor-fields { grid-template-columns: 1fr; } }

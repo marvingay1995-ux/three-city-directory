@@ -34,6 +34,6 @@ export default function DashboardDemo() {
         {tab === "listings" && <><h2>{role === "visitor" ? "Explore fictional listings" : "Fictional listing drafts"}</h2><p>{role === "visitor" ? "Try saving a fictional example." : "These are static samples, not your advertisements. Creation and publication are disabled."}</p><div className="dashboard-examples">{examples.map(item => <article key={item.title}><span className="eyebrow">{item.city} / {item.category}</span><h3>{item.title}</h3><p>{item.status}</p>{role === "visitor" && <button type="button" aria-pressed={saved.includes(item.title)} onClick={() => toggleSaved(item.title)}>{saved.includes(item.title) ? "Remove saved" : "Save example"}</button>}</article>)}</div></>}
       </div>
     </div>
-    <p className="account-return"><Link href="/account">← Account form demo</Link> · <Link href="/">Back to directory</Link></p>
+    <p className="account-return"><Link href="/profile-editor">Fictional profile editor</Link> · <Link href="/account">← Account form demo</Link> · <Link href="/">Back to directory</Link></p>
   </section>;
 }
