@@ -16,6 +16,7 @@ export function DirectoryHeader({ city }: { city?: CitySlug }) {
           </Link>
         ))}
       </nav>
+      <Link href="/account" className="account-header-link">Account demo</Link>
       <span className="header-tag">PRIVATE PREVIEW <span aria-hidden="true">●</span> 18+</span>
     </header>
   );
