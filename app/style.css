@@ -714,3 +714,28 @@ footer small { display:block; margin-top:5px; font-size:10px; }
     overflow-wrap:normal;
   }
 }
+
+
+/* UI-001 — narrow-screen overflow and touch-target hardening (demo-only). */
+html { overflow-x: clip; }
+.shell, main, .hero-inner, .city-heading > div, .discovery, .results, .listing-content { min-inline-size: 0; }
+h1, h2, h3, p, .listing-title, .brand-words { overflow-wrap: anywhere; }
+.search-controls > *, .listing-grid > *, .city-grid > * { min-inline-size: 0; }
+.compare-table-wrap { max-inline-size: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+@media (max-width: 650px) {
+  .site-header { align-items: flex-start; }
+  .brand { max-inline-size: 100%; }
+  .city-nav { justify-content: flex-start; gap: 4px; }
+  .city-nav a { min-block-size: 44px; }
+  .city-heading { align-items: flex-start; }
+  .city-deco { flex-shrink: 0; }
+  .search-controls { grid-template-columns: minmax(0, 1fr); }
+  .search-controls button { justify-content: center; min-block-size: 44px; }
+  .filter-heading, .results-header { flex-wrap: wrap; }
+  .profile-hero h1, .city-hero h1, .home-hero h1 { overflow-wrap: anywhere; }
+}
+@media (max-width: 390px) {
+  .city-deco { inline-size: 72px; block-size: 72px; font-size: 1.5rem; }
+  .city-deco span { font-size: .4rem; }
+  .city-nav a { padding-inline: 8px; }
+}
