@@ -22,7 +22,7 @@ export function DemoCompare({ listings, city }: { listings: readonly DemoListing
       {listings.map((item, index) => <li key={item.id}>
         <article className="listing">
           <Link href={getListingPath(item)} className={`listing-visual visual-${item.category.toLowerCase()}`} aria-label={`Explore ${item.title}`}>
-            <span className="visual-symbol" aria-hidden="true">{item.category === "Creative" ? "✳" : "◈"}</span>
+            <span className="visual-symbol" aria-hidden="true">{item.category === "Creative" ? "✦" : "◇"}</span>
             <span className="visual-number">0{index + 1}</span>
           </Link>
           <div className="listing-content">
@@ -32,12 +32,12 @@ export function DemoCompare({ listings, city }: { listings: readonly DemoListing
             {getDemoEditorial(item.id) && <p className="listing-editorial">{getDemoEditorial(item.id)?.tagline}</p>}
             <span className="listing-label">Fictional profile</span>
             {item.sponsoredExample && <SponsoredExample />}
+            <Link className="listing-open" href={getListingPath(item)}>View profile <span aria-hidden="true">↗</span></Link>
             <button type="button" className="compare-toggle" aria-pressed={selected.includes(item.id)}
               disabled={!selected.includes(item.id) && selected.length === MAX_COMPARE}
               onClick={() => toggle(item.id)}>
               {selected.includes(item.id) ? "Remove from comparison" : "Compare this profile"}
             </button>
-            <Link className="listing-open" href={getListingPath(item)}>View profile <span aria-hidden="true">↗</span></Link>
           </div>
         </article>
       </li>)}
