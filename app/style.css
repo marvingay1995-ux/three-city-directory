@@ -850,3 +850,22 @@ h1, h2, h3, p, .listing-title, .brand-words { overflow-wrap: anywhere; }
   .demo-portrait { transition: none; }
   .listing-visual:hover .demo-portrait { transform: none; }
 }
+
+
+/* UI-005 — account journey demonstration: no authentication or storage. */
+.account-demo { max-width: 660px; margin: clamp(24px,6vw,72px) auto; padding: clamp(18px,4vw,36px); border: 1px solid var(--border); border-radius: 16px; background: var(--surface); }
+.account-demo h1 { font-size: clamp(2rem,6vw,3.5rem); margin-block: 12px 20px; }
+.account-warning { padding: 14px; border: 1px solid #9e8052; border-radius: 8px; color: #e9d7b2; line-height: 1.55; }
+.account-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-block: 22px; }
+.account-tabs button[aria-pressed="false"] { background: transparent; border: 1px solid var(--border); color: #f4f2ec; }
+.account-form { display: grid; gap: 18px; }
+.account-form > label { display: grid; gap: 8px; }
+.account-form input:not([type="radio"]) { width: 100%; min-height: 48px; padding: 12px; background: #12151a; color: #fff; border: 1px solid #858997; border-radius: 8px; }
+.account-form fieldset { display: flex; flex-wrap: wrap; gap: 12px 22px; border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+.account-form legend { padding-inline: 8px; }
+.account-form fieldset label { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
+.account-text-action { background: none; color: var(--accent); text-decoration: underline; }
+.account-success { display: grid; gap: 12px; padding-block: 20px; }
+.account-return { margin-top: 22px; color: var(--accent); }
+
+.account-header-link { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding-inline: 12px; border: 1px solid var(--accent); border-radius: 8px; color: var(--accent); text-decoration: none; font-size: .85rem; }
