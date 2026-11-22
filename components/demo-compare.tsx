@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { SponsoredExample } from "./directory-ui";
+import { DemoPortrait } from "./demo-portrait";
 import { getListingPath, type DemoListing } from "../lib/directory";
 import { getDemoEditorial } from "../lib/demo-editorial";
 
@@ -22,7 +23,7 @@ export function DemoCompare({ listings, city }: { listings: readonly DemoListing
       {listings.map((item, index) => <li key={item.id}>
         <article className="listing">
           <Link href={getListingPath(item)} className={`listing-visual visual-${item.category.toLowerCase()}`} aria-label={`Explore ${item.title}`}>
-            <span className="visual-symbol" aria-hidden="true">{item.category === "Creative" ? "✦" : "◇"}</span>
+            <DemoPortrait variant={item.id} />
             <span className="visual-number">0{index + 1}</span>
           </Link>
           <div className="listing-content">
